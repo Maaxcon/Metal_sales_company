@@ -1,0 +1,280 @@
+/* Преміум дизайн форми авторизації */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(125deg, #00b4db, #0083b0, #6441a5, #2a0845);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    overflow: hidden;
+    position: relative;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+}
+
+/* Декоративні елементи фону */
+body::before,
+body::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: -1;
+}
+
+body::before {
+    top: -100px;
+    right: -100px;
+    animation: float 6s ease-in-out infinite;
+}
+
+body::after {
+    bottom: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    animation: float 8s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+}
+
+.form_aut {
+    width: 400px;
+    padding: 40px 50px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2), 
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    transform: perspective(1000px) rotateX(0deg);
+    transition: transform 0.6s ease, box-shadow 0.6s ease;
+    animation: formAppear 0.8s ease forwards;
+}
+
+@keyframes formAppear {
+    0% { opacity: 0; transform: translateY(30px) perspective(1000px) rotateX(10deg); }
+    100% { opacity: 1; transform: translateY(0) perspective(1000px) rotateX(0deg); }
+}
+
+.form_aut:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 
+                inset 0 0 0 1px rgba(255, 255, 255, 0.3),
+                inset 0 0 30px rgba(255, 255, 255, 0.1);
+    transform: perspective(1000px) rotateX(2deg) translateY(-5px);
+}
+
+.form_aut h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    position: relative;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form_aut h1::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #fff, transparent);
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.username, .password {
+    width: 100%;
+    padding: 18px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.username::placeholder, .password::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.username:focus, .password:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1), 
+                0 0 0 3px rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.checkbo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: -10px;
+}
+
+.remember {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.remember:checked {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.remember:checked::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 2px;
+    animation: checkmark 0.3s ease forwards;
+}
+
+@keyframes checkmark {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.checkbo p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.button_autor, .reset_password_autor {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.button_autor {
+    background: linear-gradient(90deg, #00b4db, #6441a5);
+    color: white;
+    box-shadow: 0 10px 20px rgba(0, 180, 219, 0.3);
+}
+
+.button_autor::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.button_autor:hover::before {
+    left: 100%;
+}
+
+.button_autor:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 180, 219, 0.4);
+}
+
+.button_autor:active {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 180, 219, 0.4);
+}
+
+.reset_password_autor {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: -10px;
+    position: relative;
+}
+
+.reset_password_autor::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 10px;
+    left: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.reset_password_autor:hover {
+    color: #fff;
+}
+
+.reset_password_autor:hover::after {
+    width: 60%;
+}
+
+/* Адаптивний дизайн */
+@media (max-width: 480px) {
+    .form_aut {
+        width: 90%;
+        padding: 30px;
+    }
+}
+
+/* Анімація при відображенні полів */
+.username, .password, .button_autor, .reset_password_autor {
+    animation: slideUp 0.5s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.username { animation-delay: 0.2s; }
+.password { animation-delay: 0.4s; }
+.checkbo { animation-delay: 0.6s; animation: slideUp 0.5s ease forwards; opacity: 0; transform: translateY(20px); }
+.button_autor { animation-delay: 0.8s; }
+.reset_password_autor { animation-delay: 1s; }
+
+@keyframes slideUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}

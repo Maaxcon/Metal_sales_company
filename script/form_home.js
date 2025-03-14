@@ -29,7 +29,7 @@ const funButtonSendEmailHome = function() {
         return;
     }
     
-    // Send email using fetch API
+
     fetch('/send-email', {
         method: 'POST',
         headers: {
@@ -40,7 +40,7 @@ const funButtonSendEmailHome = function() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Show success message
+            
             emailInput.value = '';
             alert("Дякуємо! Вашу електронну адресу успішно додано до розсилки.");
         } else {
