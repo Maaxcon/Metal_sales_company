@@ -1,3 +1,5 @@
+// кнопка email
+
 const buttonSendEmailHome = document.querySelector(".button_send_email_home");
 
 function closeErrorWindow() {
@@ -54,3 +56,24 @@ const funButtonSendEmailHome = function() {
 };
 
 buttonSendEmailHome.addEventListener("click", funButtonSendEmailHome);
+
+// кнопка авторизації
+
+
+let register = document.querySelector(".login-btn");
+
+
+function registerUserSite(){
+    window.location.href = "autorization.html"
+}
+
+register.addEventListener("click", registerUserSite)
+
+
+let star_shop_btn = document.querySelector(".btn.btn-primary");
+
+
+
+star_shop_btn.addEventListener("click", function(){
+     window.location.href = "products.html"
+})

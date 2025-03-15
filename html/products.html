@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetalWor - Steel Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/products.css">
+</head>
+<body>
+    <header>
+        <div class="logo">MetalWor</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search metal products" value="Steel products">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="nav-links">
+            <a href="#">Find</a>
+            <a href="#">Categories</a>
+            <a href="#">Products</a>
+            <a href="#" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Back</a>
+        
+        <div class="results-header">
+            <h2>Search results for "Steel products"</h2>
+            <span>120 results</span>
+        </div>
+
+        <div class="search-results">
+            <div class="filters">
+                <div class="filter-section">
+                    <select class="dropdown">
+                        <option>Material type</option>
+                        <option>Steel</option>
+                        <option>Aluminum</option>
+                        <option>Copper</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-header">
+                        <h3>Details</h3>
+                        <span class="icon-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <ul class="filter-options">
+                        <li><input type="checkbox" checked id="purchase-now"> <label for="purchase-now">Purchase now</label></li>
+                        <li><input type="checkbox" checked id="limited-stock"> <label for="limited-stock">Limited stock</label></li>
+                        <li><input type="checkbox" checked id="featured"> <label for="featured">Featured items</label></li>
+                    </ul>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-header">
+                        <h3>Material grade</h3>
+                        <span class="icon-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <ul class="filter-options">
+                        <li><input type="checkbox" checked id="steel"> <label for="steel">Steel</label></li>
+                        <li><input type="checkbox" checked id="aluminum"> <label for="aluminum">Aluminum</label></li>
+                        <li><input type="checkbox" checked id="copper"> <label for="copper">Copper</label></li>
+                    </ul>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-header">
+                        <h3>Price trends</h3>
+                        <span class="icon-toggle"><i class="fas fa-chevron-up"></i></span>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Metal collection</h3>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-header">
+                        <h3>Currency options</h3>
+                        <span class="icon-toggle"><i class="fas fa-chevron-up"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results">
+                <div class="results-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-badge new">New</div>
+                        <div class="product-image-container">
+                            <img src="/img/img_home/metal.jpg" alt="Out of stock metal" class="product-image">
+                            <div class="quick-view">
+                                <i class="fas fa-eye"></i> Quick view
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">
+                                <span class="type_product">Metallic</span>
+                                <span class="badge">#Metallic837</span>
+                            </div>
+                            <h4 class="product-title">Premium Metallic Sheet</h4>
+                            <div class="price-per-unit">$2.50 per unit</div>
+                            <div class="product-details">
+                                <div class="status">
+                                    <span class="status-badge in-stock"><i class="fas fa-check-circle"></i> In stock</span>
+                                </div>
+                                <div class="availability">Available</div>
+                            </div>
+                            <button class="add-to-cart-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/img/img_home/metal.jpg" alt="Aluminum" class="product-image">
+                            <div class="quick-view">
+                                <i class="fas fa-eye"></i> Quick view
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">
+                                <span class="type_product">Aluminum</span>
+                                <span class="badge">#SilverFoil</span>
+                            </div>
+                            <h4 class="product-title">Silver Foil Aluminum</h4>
+                            <div class="price-per-unit">$3.00 per unit</div>
+                            <div class="product-details">
+                                <div class="status">
+                                    <span class="status-badge out-of-stock"><i class="fas fa-times-circle"></i> Out of stock</span>
+                                </div>
+                                <div class="availability">Notify me</div>
+                            </div>
+                            <button class="add-to-cart-btn disabled"><i class="fas fa-cart-plus"></i> Out of stock</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-badge sale">Sale</div>
+                        <div class="product-image-container">
+                            <img src="/img/img_home/metal.jpg" alt="Stainless" class="product-image">
+                            <div class="quick-view">
+                                <i class="fas fa-eye"></i> Quick view
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">
+                                <span class="type_product">Stainless</span>
+                                <span class="badge">#SilverMetal</span>
+                            </div>
+                            <h4 class="product-title">Stainless Steel Sheet</h4>
+                            <div class="price-per-unit">$1.80 per unit</div>
+                            <div class="product-details">
+                                <div class="status">
+                                    <span class="status-badge in-stock"><i class="fas fa-check-circle"></i> In stock</span>
+                                </div>
+                                <div class="availability">Available</div>
+                            </div>
+                            <button class="add-to-cart-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/img/img_home/metal.jpg" alt="Metallic with sparks" class="product-image">
+                            <div class="quick-view">
+                                <i class="fas fa-eye"></i> Quick view
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">
+                                <span class="type_product">Metallic</span>
+                                <span class="badge">#MetalSpark</span>
+                            </div>
+                            <h4 class="product-title type">Metal Spark Alloy</h4>
+                            <div class="price-per-unit">$5.25 per unit</div>
+                            <div class="product-details">
+                                <div class="status">
+                                    <span class="status-badge in-stock"><i class="fas fa-check-circle"></i> In stock</span>
+                                </div>
+                                <div class="availability">Limited offer</div>
+                            </div>
+                            <button class="add-to-cart-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="product-card">
+                        <div class="product-badge hot">Hot</div>
+                        <div class="product-image-container">
+                            <img src="/img/img_home/metal.jpg" alt="Steel" class="product-image">
+                            <div class="quick-view">
+                                <i class="fas fa-eye"></i> Quick view
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">
+                                <span class="type_product">Steel</span>
+                                <span class="badge">#BlueSteel</span>
+                            </div>
+                            <h4 class="product-title">Blue Steel Premium</h4>
+                            <div class="price-per-unit">$4.50 per unit</div>
+                            <div class="product-details">
+                                <div class="status">
+                                    <span class="status-badge in-stock"><i class="fas fa-check-circle"></i> In stock</span>
+                                </div>
+                                <div class="availability">Fast shipping</div>
+                            </div>
+                            <button class="add-to-cart-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 6 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/img/img_home/metal.jpg" alt="Aluminum" class="product-image">
+                            <div class="quick-view">
+                                <i class="fas fa-eye"></i> Quick view
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">
+                                <span class="type_product">Aluminum</span>
+                                <span class="badge">#SilverSheet</span>
+                            </div>
+                            <h4 class="product-title">Silver Sheet Aluminum</h4>
+                            <div class="price-per-unit">$3.75 per unit</div>
+                            <div class="product-details">
+                                <div class="status">
+                                    <span class="status-badge in-stock"><i class="fas fa-check-circle"></i> In stock</span>
+                                </div>
+                                <div class="availability">Available</div>
+                            </div>
+                            <button class="add-to-cart-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 7 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/img/img_home/metal.jpg" alt="Metallic factory" class="product-image">
+                            <div class="quick-view">
+                                <i class="fas fa-eye"></i> Quick view
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">
+                                <span class="type_product">Metallic</span>
+                                <span class="badge">#MetalFactory</span>
+                            </div>
+                            <h4 class="product-title">Factory Grade Metal</h4>
+                            <div class="price-per-unit">$2.95 per unit</div>
+                            <div class="product-details">
+                                <div class="status">
+                                    <span class="status-badge in-stock"><i class="fas fa-check-circle"></i> In stock</span>
+                                </div>
+                                <div class="availability">Bulk discount</div>
+                            </div>
+                            <button class="add-to-cart-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 8 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/img/img_home/metal.jpg" alt="Metallic rust" class="product-image">
+                            <div class="quick-view">
+                                <i class="fas fa-eye"></i> Quick view
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">
+                                <span class="type_product">Metallic</span>
+                                <span class="badge">#MetalRust</span>
+                            </div>
+                            <h4 class="product-title">Rust-Resistant Metal</h4>
+                            <div class="price-per-unit">$3.25 per unit</div>
+                            <div class="product-details">
+                                <div class="status">
+                                    <span class="status-badge in-stock"><i class="fas fa-check-circle"></i> In stock</span>
+                                </div>
+                                <div class="availability">Premium quality</div>
+                            </div>
+                            <button class="add-to-cart-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 9 -->
+                    <div class="product-card">
+                        <div class="product-badge premium">Premium</div>
+                        <div class="product-image-container">
+                            <img src="/img/img_home/metal.jpg" alt="Metallic gold" class="product-image">
+                            <div class="quick-view">
+                                <i class="fas fa-eye"></i> Quick view
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">
+                                <span class="type_product">Metallic</span>
+                                <span class="badge">#MetalGold</span>
+                            </div>
+                            <h4 class="product-title">Gold-Plated Metal</h4>
+                            <div class="price-per-unit">$8.50 per unit</div>
+                            <div class="product-details">
+                                <div class="status">
+                                    <span class="status-badge in-stock"><i class="fas fa-check-circle"></i> In stock</span>
+                                </div>
+                                <div class="availability">Exclusive item</div>
+                            </div>
+                            <button class="add-to-cart-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="load-more"><i class="fas fa-sync"></i> Load more products</button>
+                
+                <div class="pagination">
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <span>...</span>
+                    <a href="#">12</a>
+                    <a href="#" class="next-page"><i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+                                 <!-- КОШИК -->
+
+
+
+
+     <!-- Cart Modal -->
+<div class="cart-modal" id="cartModal">
+    <div class="cart-header">
+        <h3 class="cart-title">Shopping Cart <span class="cart-count-badge">3</span></h3>
+        <button class="cart-close" onclick="closeCartModal()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <div class="cart-body">
+        <div class="allq_suma" style="margin-left: 3%; text-align: center; padding: 5px;" ></div>
+    </div>
+           
+        
+        <div class="cart-empty" style="display: none;">
+            <div class="empty-cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <h3>Your cart is empty</h3>
+            <p>Looks like you haven't added any products to your cart yet.</p>
+            <button class="continue-shopping-btn">Continue Shopping</button>
+        </div>
+    </div>
+    
+    <div class="cart-footer">
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span>$22.90</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping:</span>
+                <span>$5.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax (10%):</span>
+                <span>$2.29</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <span>$30.19</span>
+            </div>
+        </div>
+        <div class="cart-actions">
+            <button class="continue-shopping">Continue Shopping</button>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+</div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-company">
+                <div class="footer-logo">MetalWor</div>
+                <p class="footer-description">Premium metal products for industrial and commercial use.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links-group">
+                <h4>Products</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Steel</a></li>
+                    <li><a href="#">Aluminum</a></li>
+                    <li><a href="#">Copper</a></li>
+                    <li><a href="#">Special alloys</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links-group">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links-group">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-newsletter">
+                <h4>Subscribe to our newsletter</h4>
+                <p>Get the latest updates on new products and special offers</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Your email address">
+                    <button><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="copyright">© 2025 MetalWor. All rights reserved.</div>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-cc-amex"></i>
+            </div>
+        </div>
+    </footer>
+    <script src="/script/products_script.js"></script>
+</body>
+</html>
