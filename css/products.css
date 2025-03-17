@@ -19,6 +19,8 @@
     --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
     --hover-shadow: 0 5px 15px rgba(0,0,0,0.1);
     --transition: all 0.3s ease;
+
+    --radius-sm: 4px;
 }
 
 body {
@@ -47,6 +49,17 @@ header {
     color: var(--primary-color);
     letter-spacing: 1px;
 }
+
+.logo:after {
+    content: '';
+    position: absolute;
+    bottom: 15px;
+    left: 30px;
+    width: 3%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), transparent);
+    border-radius: var(--radius-sm);
+  }
 
 .search-bar {
     display: flex;
