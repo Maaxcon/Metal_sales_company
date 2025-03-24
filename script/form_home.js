@@ -64,7 +64,7 @@ let register = document.querySelector(".login-btn");
 
 
 function registerUserSite(){
-    window.location.href = "autorization.html"
+    window.location.href = "registration.html"
 }
 
 register.addEventListener("click", registerUserSite)

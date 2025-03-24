@@ -1,0 +1,101 @@
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(125deg, #00b4db, #0083b0, #6441a5, #2a0845);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .form_reg {
+            width: 400px;
+            padding: 40px 50px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: formAppear 0.8s ease forwards;
+        }
+
+        @keyframes formAppear {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .form_reg h1 {
+            color: #fff;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .username, .email, .password, .confirm_password {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .username::placeholder, .email::placeholder, .password::placeholder, .confirm_password::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .button_reg {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #00b4db, #6441a5);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .button_reg:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 180, 219, 0.3);
+        }
+
+        .have_account {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .have_account a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .have_account a:hover {
+            text-decoration: underline;
+        }
+
