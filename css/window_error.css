@@ -19,22 +19,25 @@
     font-size: 24px;
     margin-bottom: 20px;
     font-weight: bold;
+    color: black;
 }
 
 .error_message {
     font-size: 16px;
     margin-bottom: 30px;
     line-height: 1.4;
+    color: black;
 }
 
 .error_close {
     padding: 10px 20px;
     background-color: white;
-    color: red;
+    color: rgb(241, 241, 241);
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    color: black;
 }
 
 /* Додатковий код для анімації появи вікна */
