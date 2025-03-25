@@ -20,3 +20,13 @@ document.querySelector('.form_reg').addEventListener('submit', async (e) => {
     const data = await response.json();
     alert(data.message);
 });
+
+// Path: script/login.js Кнопка до авторизації
+let login = document.querySelector(".have_account");
+
+
+function loginUserSite(){
+    window.location.href = "autorization.html"
+}
+
+login.addEventListener("click", loginUserSite)

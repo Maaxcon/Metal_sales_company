@@ -87,6 +87,7 @@
         .have_account {
             text-align: center;
             color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
         }
 
         .have_account a {
