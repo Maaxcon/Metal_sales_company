@@ -22,6 +22,7 @@ app.use(express.json()); // вбудований middleware для парсин�
 app.use(express.static(path.join(__dirname, 'html'))); // статичні файли
 app.use('/css', express.static(path.join(__dirname, 'css')));  // для стилів
 app.use('/script', express.static(path.join(__dirname, 'script')));  // для скриптів
+app.use('/img', express.static(path.join(__dirname, 'img')));  // для фото
 
 // Маршрут для головної сторінки
 app.get('/', (req, res) => {

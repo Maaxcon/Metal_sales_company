@@ -173,3 +173,9 @@ add_to_cart.forEach(button => {
 });
 
 
+
+function closeCartModal(){
+    cart_modal.classList.remove("active");
+}
+    
+
