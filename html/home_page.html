@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MetaWorks</title>
+    <title>МетаВоркс - Металопрокат України</title>
     <link rel="stylesheet" href="/css/home_page.css">
     <link rel="stylesheet" href="/css/window_error.css">
 </head>
@@ -11,69 +11,90 @@
     <div class="container">
         <!-- Header -->
         <header>
-            <div class="logo">MetaWorks</div>
-            <button class="login-btn">Login / Sign up</button>
+            <div class="logo">МетаВоркс</div>
+            <button class="login-btn">Вхід / Реєстрація</button>
         </header>
 
         <!-- Hero Section -->
         <div class="hero">
             <div class="hero-content">
-                <h1>Explore, compare, and purchase quality</h1>
-                <p class="hero-text">Extensive collection of over 7,000 metal products from 1,000+ suppliers worldwide.</p>
+                <h1>Дослідіть, порівняйте та придбайте якісний металопрокат</h1>
+                <p class="hero-text">Велика колекція понад 7 000 металевих виробів від більш ніж 1 000 постачальників по всій Україні.</p>
                 <div class="actions">
-                    <button class="btn btn-primary">Start shopping</button>
-                    <button class="btn btn-secondary">Custom order</button>
+                    <button class="btn btn-primary">Почати покупки</button>
                 </div>
                 
                 <!-- Stats -->
                 <div class="stats">
                     <div class="stat">
-                        <div class="stat-number">7,000</div>
-                        <div class="stat-label">Products</div>
+                        <div class="stat-number">7 000</div>
+                        <div class="stat-label">Товарів</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-number">1,00</div>
-                        <div class="stat-label">Supply</div>
+                        <div class="stat-number">1 000+</div>
+                        <div class="stat-label">Постачальників</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-number">250,000+</div>
-                        <div class="stat-label">Customers served</div>
+                        <div class="stat-number">250 000+</div>
+                        <div class="stat-label">Задоволених клієнтів</div>
                     </div>
                 </div>
             </div>
             
             <div class="hero-image">
-                <img src="/img/img_home/metal.jpg" alt="Metal product">
-                
-                <div class="product-showcase">
-                    <div class="product-info">
-                        <div class="product-price">From $99</div>
-                        <div class="product-type">1-day lot</div>
-                        <div class="product-buttons">
-                            <button class="btn btn-primary">Select options</button>
-                            <button class="btn btn-secondary">View similar</button>
-                        </div>
-                    </div>
+                <img src="/img/img_home/metal.jpg" alt="Металопрокат">
+            </div>
+        </div>
+
+        <!-- Product Categories Section -->
+        <h3 class="featured-title">Основні категорії металопрокату</h3>
+        <div class="product-categories">
+            <div class="category-card" data-category-id="armatura">
+                <div class="category-icon">
+                    <img src="/api/placeholder/64/64" alt="Арматура">
                 </div>
+                <div class="category-name">Арматура</div>
+                <div class="view-more category-view-button" data-category-id="armatura">Переглянути →</div>
+            </div>
+            <div class="category-card" data-category-id="sheets">
+                <div class="category-icon">
+                    <img src="/api/placeholder/64/64" alt="Листовий прокат">
+                </div>
+                <div class="category-name">Листовий прокат</div>
+                <div class="view-more category-view-button" data-category-id="sheets">Переглянути →</div>
+            </div>
+            <div class="category-card" data-category-id="pipes">
+                <div class="category-icon">
+                    <img src="/api/placeholder/64/64" alt="Труби">
+                </div>
+                <div class="category-name">Труби</div>
+                <div class="view-more category-view-button" data-category-id="pipes">Переглянути →</div>
+            </div>
+            <div class="category-card" data-category-id="corners">
+                <div class="category-icon">
+                    <img src="/api/placeholder/64/64" alt="Кутки">
+                </div>
+                <div class="category-name">Кутки</div>
+                <div class="view-more category-view-button" data-category-id="corners">Переглянути →</div>
             </div>
         </div>
 
         <!-- Featured Suppliers -->
-        <h3 class="featured-title">Featured suppliers this month</h3>
+        <h3 class="featured-title">Провідні постачальники цього місяця</h3>
         <div class="suppliers">
             <div class="supplier">
                 <div class="supplier-header">
-                    <img src="/img/img_home/people/people_1.jpg" alt="Supplier image">
-                    <div class="supplier-profile">JM</div>
+                    <img src="/img/img_home/people/people_1.jpg" alt="Фото постачальника">
+                    <div class="supplier-profile">МС</div>
                 </div>
                 <div class="supplier-content">
-                    <div class="supplier-name">John Metallurgy</div>
-                    <div class="supplier-meta">Metal manufacturer</div>
+                    <div class="supplier-name">Метал Стандарт</div>
+                    <div class="supplier-meta">Виробник металопрокату</div>
                     <div class="supplier-stats">
-                        <div class="supplier-stat">5 suppliers</div>
+                        <div class="supplier-stat">15 товарів</div>
                         <div class="supplier-stat">★ 4.8/5</div>
                     </div>
-                    <button class="view-btn">View</button>
+                    <button class="view-btn supplier-view-button" data-supplier-id="metalstandard">Переглянути</button>
                     <div class="supplier-gallery">
                         <div class="gallery-item"></div>
                         <div class="gallery-item"></div>
@@ -84,17 +105,17 @@
             </div>
             <div class="supplier">
                 <div class="supplier-header">
-                    <img src="/img/img_home/people/people_2.jpg" alt="Supplier image">
-                    <div class="supplier-profile">LS</div>
+                    <img src="/img/img_home/people/people_2.jpg" alt="Фото постачальника">
+                    <div class="supplier-profile">СС</div>
                 </div>
                 <div class="supplier-content">
-                    <div class="supplier-name">Lisa Steelworks</div>
-                    <div class="supplier-meta">Steel distributor</div>
+                    <div class="supplier-name">Сталь Сервіс</div>
+                    <div class="supplier-meta">Дистрибутор сталі</div>
                     <div class="supplier-stats">
-                        <div class="supplier-stat">8 suppliers</div>
+                        <div class="supplier-stat">28 товарів</div>
                         <div class="supplier-stat">★ 4.9/5</div>
                     </div>
-                    <button class="view-btn">View</button>
+                    <button class="view-btn supplier-view-button" data-supplier-id="steelservice">Переглянути</button>
                     <div class="supplier-gallery">
                         <div class="gallery-item"></div>
                         <div class="gallery-item"></div>
@@ -105,17 +126,17 @@
             </div>
             <div class="supplier">
                 <div class="supplier-header">
-                    <img src="/img/img_home/people/people_3.jpg" alt="Supplier image">
-                    <div class="supplier-profile">PS</div>
+                    <img src="/img/img_home/people/people_3.jpg" alt="Фото постачальника">
+                    <div class="supplier-profile">ПЗ</div>
                 </div>
                 <div class="supplier-content">
-                    <div class="supplier-name">Peter Smith</div>
-                    <div class="supplier-meta">Iron provider</div>
+                    <div class="supplier-name">Профіль Захід</div>
+                    <div class="supplier-meta">Постачальник арматури</div>
                     <div class="supplier-stats">
-                        <div class="supplier-stat">12 suppliers</div>
+                        <div class="supplier-stat">22 товарів</div>
                         <div class="supplier-stat">★ 4.7/5</div>
                     </div>
-                    <button class="view-btn">View</button>
+                    <button class="view-btn supplier-view-button" data-supplier-id="profilzahid">Переглянути</button>
                     <div class="supplier-gallery">
                         <div class="gallery-item"></div>
                         <div class="gallery-item"></div>
@@ -126,59 +147,17 @@
             </div>
             <div class="supplier">
                 <div class="supplier-header">
-                    <img src="/img/img_home/people/people_3.jpg" alt="Supplier image">
-                    <div class="supplier-profile">PS</div>
+                    <img src="/img/img_home/people/people_3.jpg" alt="Фото постачальника">
+                    <div class="supplier-profile">МП</div>
                 </div>
                 <div class="supplier-content">
-                    <div class="supplier-name">Peter Smith</div>
-                    <div class="supplier-meta">Iron provider</div>
+                    <div class="supplier-name">Метал Плюс</div>
+                    <div class="supplier-meta">Трубний завод</div>
                     <div class="supplier-stats">
-                        <div class="supplier-stat">12 suppliers</div>
-                        <div class="supplier-stat">★ 4.7/5</div>
-                    </div>
-                    <button class="view-btn">View</button>
-                    <div class="supplier-gallery">
-                        <div class="gallery-item"></div>
-                        <div class="gallery-item"></div>
-                        <div class="gallery-item"></div>
-                        <div class="gallery-item"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="supplier">
-                <div class="supplier-header">
-                    <img src="/img/img_home/people/people_3.jpg" alt="Supplier image">
-                    <div class="supplier-profile">PS</div>
-                </div>
-                <div class="supplier-content">
-                    <div class="supplier-name">Peter Smith</div>
-                    <div class="supplier-meta">Iron provider</div>
-                    <div class="supplier-stats">
-                        <div class="supplier-stat">12 suppliers</div>
-                        <div class="supplier-stat">★ 4.7/5</div>
-                    </div>
-                    <button class="view-btn">View</button>
-                    <div class="supplier-gallery">
-                        <div class="gallery-item"></div>
-                        <div class="gallery-item"></div>
-                        <div class="gallery-item"></div>
-                        <div class="gallery-item"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="supplier">
-                <div class="supplier-header">
-                    <img src="/img/img_home/people/people_4.jpg" alt="Supplier image">
-                    <div class="supplier-profile">AL</div>
-                </div>
-                <div class="supplier-content">
-                    <div class="supplier-name">Alex Liu</div>
-                    <div class="supplier-meta">Machinery</div>
-                    <div class="supplier-stats">
-                        <div class="supplier-stat">7 suppliers</div>
+                        <div class="supplier-stat">32 товарів</div>
                         <div class="supplier-stat">★ 4.6/5</div>
                     </div>
-                    <button class="view-btn">View</button>
+                    <button class="view-btn supplier-view-button" data-supplier-id="metalplus">Переглянути</button>
                     <div class="supplier-gallery">
                         <div class="gallery-item"></div>
                         <div class="gallery-item"></div>
@@ -186,42 +165,75 @@
                         <div class="gallery-item"></div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <!-- Our Advantages -->
+        <h3 class="featured-title">Наші переваги</h3>
+        <div class="advantages-grid">
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <img src="/api/placeholder/48/48" alt="Швидка доставка">
+                </div>
+                <div class="advantage-title">Швидка доставка</div>
+                <div class="advantage-desc">Доставка по всій Україні від 24 годин</div>
+            </div>
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <img src="/api/placeholder/48/48" alt="Гарантія якості">
+                </div>
+                <div class="advantage-title">Гарантія якості</div>
+                <div class="advantage-desc">Весь товар сертифікований та відповідає ДСТУ</div>
+            </div>
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <img src="/api/placeholder/48/48" alt="Великий асортимент">
+                </div>
+                <div class="advantage-title">Великий асортимент</div>
+                <div class="advantage-desc">Більше 7 000 позицій металопрокату</div>
+            </div>
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <img src="/api/placeholder/48/48" alt="Власний склад">
+                </div>
+                <div class="advantage-title">Власний склад</div>
+                <div class="advantage-desc">Оперативна комплектація замовлень</div>
             </div>
         </div>
 
         <!-- Bottom Banner -->
         <div class="bottom-banner">
             <div class="banner-image">
-                <img src="/img/img_home/Metal_profile.png" alt="Metal profile">
+                <img src="/img/img_home/Metal_profile.png" alt="Профіль металу">
             </div>
             <div class="banner-content">
-                <h2>Discover our latest collection of premium metal products, perfect for all your industrial needs.</h2>
-                <p>Sign up for our newsletter to receive exclusive offers and updates.</p>
+                <h2>Відкрийте для себе нашу нову колекцію високоякісних металевих виробів для всіх ваших промислових потреб</h2>
+                <p>Підпишіться на нашу розсилку, щоб отримувати ексклюзивні пропозиції та оновлення</p>
                 <div class="newsletter">
-                    <input class="email_send_home" type="email" placeholder="Enter your email to receive updates">
-                    <button class="button_send_email_home">Sign up</button>
+                    <input class="email_send_home" type="email" placeholder="Введіть вашу електронну пошту">
+                    <button class="button_send_email_home">Підписатися</button>
                 </div>
             </div>
         </div>
 
-    <!-- window error -->
-
+        <!-- Window error -->
         <div class="window_error" id="errorWindow">
             <div class="error_title">Помилка!</div>
             <div class="error_message">Ви некоректно заповнили поле вводу. Будь ласка, перевірте дані та спробуйте знову.</div>
             <button class="error_close" onclick="closeErrorWindow()">Закрити</button>
         </div>
+        
         <!-- Footer -->
         <footer>
-            <div class="logo">MetaWorks</div>
+            <div class="logo">МетаВоркс</div>
             <div class="footer-links">
-                <div class="footer-link">Privacy</div>
-                <div class="footer-link">Contact</div>
-                <div class="footer-link">FAQ</div>
+                <div class="footer-link">Конфіденційність</div>
+                <div class="footer-link">Контакти</div>
+                <div class="footer-link">Питання та відповіді</div>
             </div>
-            <div class="copyright">MetaWorks © 2023</div>
+            <div class="copyright">МетаВоркс © 2023</div>
         </footer>
     </div>
     <script src="/script/form_home.js"></script>
+    <script src="/script/homepage.js"></script>
 </body>
 </html>
