@@ -4,20 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDD31yJxSyUbEayytXdnOyLMuEaMra_wKs",
+        authDomain: "my-metaworks.firebaseapp.com",
+        projectId: "my-metaworks",
+        storageBucket: "my-metaworks.firebasestorage.app",
+        messagingSenderId: "651526242373",
+        appId: "1:651526242373:web:a590989d8ce6db3458e32c"
+    };
+
+    // Ініціалізація Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    </script>
     <link rel="stylesheet" href="/css/autorization.css">
 </head>
 <body>
-    <form action="" class="form_aut">
+    <form action="" class="form_auth">
         <h1>Авторизація</h1>
-        <input type="text" placeholder="Username" class="username">
-        <input type="password" placeholder="Password" class="password">
-        <div class="checkbo">
-            <input type="checkbox" class="remember">
-            <p>Запам'ятати мене</p>
+        <input type="email" placeholder="Email" class="username" required>
+        <input type="password" placeholder="Password" class="password" required>
+        <div class="remember-section">
+            <input type="checkbox" class="remember" id="remember">
+            <label for="remember">Запам'ятати мене</label>
         </div>
-        <button class="button_autor">Авторизоваться</button>
-        <button class="reset_password_autor">Забули пароль</button>
+        <button type="submit" class="button_autor">Увійти</button>
+        <p class="have_account">Немає акаунта? <a href="/registration.html">Зареєструватися</a></p>
     </form>
-    <script src="/script/autorization.js"></script>
+    
+    <script>
+        // Завантаження збережених даних при завантаженні сторінки
+        document.addEventListener("DOMContentLoaded", function () {
+            const savedData = localStorage.getItem("userData");
+            const userName = document.querySelector(".username");
+            const remember = document.querySelector(".remember");
+            
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                if (parsedData.remember) { 
+                    userName.value = parsedData.email;
+                    remember.checked = true;
+                }
+            }
+        });
+
+        // Код авторизації
+        document.querySelector('.form_auth').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const userName = document.querySelector(".username");
+            const password = document.querySelector(".password");
+            const remember = document.querySelector(".remember");
+            const submitBtn = document.querySelector('.button_autor');
+            
+            const email = userName.value;
+            const passwordValue = password.value;
+            
+            // Блокуємо кнопку під час авторизації
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Авторизація...';
+            
+            try {
+                // Авторизація через Firebase Auth
+                const userCredential = await auth.signInWithEmailAndPassword(email, passwordValue);
+                const user = userCredential.user;
+                
+                // Оновлюємо статус користувача в Firestore
+                await db.collection('users').doc(user.uid).update({
+                    isOnline: true,
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Зберігаємо дані локально якщо потрібно
+                if (remember.checked) {
+                    const obj = {
+                        email: email,
+                        remember: true
+                    };
+                    localStorage.setItem('userData', JSON.stringify(obj));
+                } else {
+                    localStorage.removeItem('userData');
+                }
+                
+                alert('Успішний вхід!');
+                window.location.href = "/home_page.html";
+                
+            } catch (error) {
+                console.error('Помилка авторизації:', error);
+                let errorMessage = 'Помилка авторизації: ';
+                
+                // Переклад помилок на українську
+                switch(error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage += 'Користувача з таким email не знайдено';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage += 'Неправильний пароль';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage += 'Неправильний формат email';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage += 'Забагато спроб. Спробуйте пізніше';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage += 'Проблема з мережею. Перевірте інтернет-з\'єднання';
+                        break;
+                    default:
+                        errorMessage += error.message;
+                }
+                
+                alert(errorMessage);
+            } finally {
+                // Розблокуємо кнопку
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Увійти';
+            }
+        });
+    </script>
 </body>
 </html>

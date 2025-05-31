@@ -26,7 +26,7 @@ app.use('/img', express.static(path.join(__dirname, 'img')));  // для фот�
 
 // Маршрут для головної сторінки
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'html', 'home_page.html')); // це твоя головна сторінка
+  res.sendFile(path.join(__dirname, 'html', 'home_page.html')); // головна сторінка
 });
 
 // Додаємо маршрути для інших сторінок
@@ -40,6 +40,10 @@ app.get('/authorization', (req, res) => {
 
 app.get('/products', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'products.html')); // сторінка продуктів
+});
+
+app.get('/flat_products', (req, res) => {
+  res.sendFile(path.join(__dirname, 'html', 'flat_products.html')); // сторінка продуктів
 });
 
 // Роут для реєстрації користувача

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог листового прокату - МетаВоркс</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/products.css">
+    <link rel="stylesheet" href="/css/window_error.css">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDD31yJxSyUbEayytXdnOyLMuEaMra_wKs",
+        authDomain: "my-metaworks.firebaseapp.com",
+        projectId: "my-metaworks",
+        storageBucket: "my-metaworks.firebasestorage.app",
+        messagingSenderId: "651526242373",
+        appId: "1:651526242373:web:a590989d8ce6db3458e32c"
+    };
+
+    // Ініціалізація Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header як на home_page -->
+        <header>
+            <div class="logo">
+                <a href="home_page.html" style="text-decoration: none; color: inherit;">МетаВоркс</a>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" class="input_search" placeholder="Пошук листового прокату..." id="searchInput">
+                <button class="search_product_but" id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="user-section">
+                <!-- Кошик -->
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                
+                <!-- Показується коли користувач не увійшов -->
+                <button class="login-btn" id="loginBtn">Вхід / Реєстрація</button>
+                
+                <!-- Показується коли користувач увійшов (спочатку приховано) -->
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <div class="user-info" id="userInfo">
+                        <span class="user-name" id="userName">Користувач</span>
+                        <div class="user-menu" id="userMenu">
+                            <button class="profile-btn" id="profileBtn">Профіль</button>
+                            <button class="logout-btn" id="logoutBtn">Вийти</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="breadcrumb">
+                <a href="home_page.html">Головна</a> > <span>Каталог листового прокату</span>
+            </div>
+
+            <div class="page-header">
+                <h1 class="page-title">Листовий прокат</h1>
+                <div class="results-count" id="resultsCount">Завантаження...</div>
+            </div>
+
+            <div class="catalog-layout">
+                <!-- Фільтри -->
+                <div class="filters">
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h3>Тип листа</h3>
+                            <span class="filter-toggle">−</span>
+                        </div>
+                        <ul class="filter-options" id="typeFilter">
+                            <li><input type="checkbox" value="cold_rolled" id="cold_rolled"> <label for="cold_rolled">Холоднокатаний</label></li>
+                            <li><input type="checkbox" value="hot_rolled" id="hot_rolled"> <label for="hot_rolled">Гарячекатаний</label></li>
+                            <li><input type="checkbox" value="galvanized" id="galvanized"> <label for="galvanized">Оцинкований</label></li>
+                            <li><input type="checkbox" value="corrugated" id="corrugated"> <label for="corrugated">Рифлений</label></li>
+                            <li><input type="checkbox" value="perforated" id="perforated"> <label for="perforated">Просічно-витяжний</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h3>Товщина</h3>
+                            <span class="filter-toggle">−</span>
+                        </div>
+                        <ul class="filter-options" id="thicknessFilter">
+                            <li><input type="checkbox" value="0.5" id="t05"> <label for="t05">0.5 мм</label></li>
+                            <li><input type="checkbox" value="0.6" id="t06"> <label for="t06">0.6 мм</label></li>
+                            <li><input type="checkbox" value="0.7" id="t07"> <label for="t07">0.7 мм</label></li>
+                            <li><input type="checkbox" value="0.8" id="t08"> <label for="t08">0.8 мм</label></li>
+                            <li><input type="checkbox" value="1" id="t1"> <label for="t1">1 мм</label></li>
+                            <li><input type="checkbox" value="1.2" id="t12"> <label for="t12">1.2 мм</label></li>
+                            <li><input type="checkbox" value="1.5" id="t15"> <label for="t15">1.5 мм</label></li>
+                            <li><input type="checkbox" value="2" id="t2"> <label for="t2">2 мм</label></li>
+                            <li><input type="checkbox" value="2.5" id="t25"> <label for="t25">2.5 мм</label></li>
+                            <li><input type="checkbox" value="3" id="t3"> <label for="t3">3 мм</label></li>
+                            <li><input type="checkbox" value="4" id="t4"> <label for="t4">4 мм</label></li>
+                            <li><input type="checkbox" value="5" id="t5"> <label for="t5">5 мм</label></li>
+                            <li><input type="checkbox" value="6" id="t6"> <label for="t6">6 мм</label></li>
+                            <li><input type="checkbox" value="8" id="t8"> <label for="t8">8 мм</label></li>
+                            <li><input type="checkbox" value="10" id="t10"> <label for="t10">10 мм</label></li>
+                            <li><input type="checkbox" value="12" id="t12"> <label for="t12">12 мм</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h3>Ширина</h3>
+                            <span class="filter-toggle">−</span>
+                        </div>
+                        <ul class="filter-options" id="widthFilter">
+                            <li><input type="checkbox" value="1000" id="w1000"> <label for="w1000">1000 мм</label></li>
+                            <li><input type="checkbox" value="1250" id="w1250"> <label for="w1250">1250 мм</label></li>
+                            <li><input type="checkbox" value="1500" id="w1500"> <label for="w1500">1500 мм</label></li>
+                            <li><input type="checkbox" value="2000" id="w2000"> <label for="w2000">2000 мм</label></li>
+                            <li><input type="checkbox" value="2500" id="w2500"> <label for="w2500">2500 мм</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h3>Довжина</h3>
+                            <span class="filter-toggle">−</span>
+                        </div>
+                        <ul class="filter-options" id="lengthFilter">
+                            <li><input type="checkbox" value="2000" id="l2000"> <label for="l2000">2000 мм</label></li>
+                            <li><input type="checkbox" value="2500" id="l2500"> <label for="l2500">2500 мм</label></li>
+                            <li><input type="checkbox" value="3000" id="l3000"> <label for="l3000">3000 мм</label></li>
+                            <li><input type="checkbox" value="4000" id="l4000"> <label for="l4000">4000 мм</label></li>
+                            <li><input type="checkbox" value="6000" id="l6000"> <label for="l6000">6000 мм</label></li>
+                            <li><input type="checkbox" value="12000" id="l12000"> <label for="l12000">12000 мм</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h3>Марка сталі</h3>
+                            <span class="filter-toggle">−</span>
+                        </div>
+                        <ul class="filter-options" id="steelGradeFilter">
+                            <li><input type="checkbox" value="08kp" id="08kp"> <label for="08kp">08кп</label></li>
+                            <li><input type="checkbox" value="dx51d" id="dx51d"> <label for="dx51d">DX51D</label></li>
+                            <li><input type="checkbox" value="ch" id="ch"> <label for="ch">СП</label></li>
+                            <li><input type="checkbox" value="st3ncn" id="st3ncn"> <label for="st3ncn">ст-3пс/сп</label></li>
+                            <li><input type="checkbox" value="st3ps35310" id="st3ps35310"> <label for="st3ps35310">ст-3пс/ст35310</label></li>
+                            <li><input type="checkbox" value="st5ps35310" id="st5ps35310"> <label for="st5ps35310">ст-5пс/ст35310</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h3>Клас</h3>
+                            <span class="filter-toggle">−</span>
+                        </div>
+                        <ul class="filter-options" id="classFilter">
+                            <li><input type="checkbox" value="zn140" id="zn140"> <label for="zn140">Zn140</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h3>Номер профілю</h3>
+                            <span class="filter-toggle">−</span>
+                        </div>
+                        <ul class="filter-options" id="profileFilter">
+                            <li><input type="checkbox" value="pbv306" id="pbv306"> <label for="pbv306">ПВЛ 306</label></li>
+                            <li><input type="checkbox" value="pbv406" id="pbv406"> <label for="pbv406">ПВЛ 406</label></li>
+                            <li><input type="checkbox" value="pbv506" id="pbv506"> <label for="pbv506">ПВЛ 506</label></li>
+                            <li><input type="checkbox" value="pbv606" id="pbv606"> <label for="pbv606">ПВЛ 606</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h3>Ціновий діапазон</h3>
+                            <span class="filter-toggle">−</span>
+                        </div>
+                        <div class="price-range">
+                            <input type="number" placeholder="Від" id="priceFrom">
+                            <span>−</span>
+                            <input type="number" placeholder="До" id="priceTo">
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h3>Наявність</h3>
+                            <span class="filter-toggle">−</span>
+                        </div>
+                        <ul class="filter-options">
+                            <li><input type="checkbox" value="true" id="inStock"> <label for="inStock">В наявності</label></li>
+                            <li><input type="checkbox" value="false" id="outStock"> <label for="outStock">Під замовлення</label></li>
+                        </ul>
+                    </div>
+
+                    <button class="apply-filters-btn" id="applyFilters">Застосувати фільтри</button>
+                    <button class="apply-filters-btn" id="clearFilters" style="background-color: #6c757d; margin-top: 10px;">Очистити фільтри</button>
+                </div>
+
+                <!-- Продукти -->
+                <div class="products-section">
+                    <div class="sort-bar">
+                        <div class="sort-options">
+                            <select id="sortSelect">
+                                <option value="default">Сортування за замовчуванням</option>
+                                <option value="price-asc">Ціна: від низької до високої</option>
+                                <option value="price-desc">Ціна: від високої до низької</option>
+                                <option value="name-asc">Назва: А-Я</option>
+                                <option value="name-desc">Назва: Я-А</option>
+                                <option value="thickness-asc">Товщина: від тонкого до товстого</option>
+                                <option value="thickness-desc">Товщина: від товстого до тонкого</option>
+                            </select>
+                        </div>
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid"><i class="fas fa-th"></i></button>
+                            <button class="view-btn" data-view="list"><i class="fas fa-list"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Завантаження -->
+                    <div class="loading" id="loadingSpinner">
+                        <div class="spinner"></div>
+                        <p>Завантаження товарів...</p>
+                    </div>
+
+                    <!-- Сітка товарів -->
+                    <div class="products-grid" id="productsGrid" style="display: none;">
+                        <!-- Товари будуть додані через JavaScript -->
+                    </div>
+
+                    <!-- Повідомлення коли немає товарів -->
+                    <div class="no-products" id="noProducts" style="display: none; text-align: center; padding: 40px;">
+                        <i class="fas fa-search" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
+                        <h3>Товари не знайдені</h3>
+                        <p>Спробуйте змінити параметри фільтрації</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h3 class="cart-title">Кошик <span class="cart-count-badge" id="cartCountBadge">0</span></h3>
+            <button class="cart-close" id="cartClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="cart-body" id="cartBody">
+            <div class="allq_suma" id="cartTotal" style="margin-left: 3%; text-align: center; padding: 5px;"></div>
+        </div>
+               
+        <div class="cart-empty" id="cartEmpty" style="display: none;">
+            <div class="empty-cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <h3>Ваш кошик порожній</h3>
+            <p>Схоже, ви ще не додали жодного товару до кошика.</p>
+            <button class="continue-shopping-btn" id="continueShopping">Продовжити покупки</button>
+        </div>
+        
+        <div class="cart-footer" id="cartFooter">
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Підсумок:</span>
+                    <span id="subtotal">₴0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Доставка:</span>
+                    <span>₴200.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Загалом:</span>
+                    <span id="finalTotal">₴200.00</span>
+                </div>
+            </div>
+            <div class="cart-actions">
+                <button class="continue-shopping" id="continueShoppingBtn">Продовжити покупки</button>
+                <button class="checkout-btn" id="checkoutBtn">Оформити замовлення</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Товар додано до кошика!</span>
+    </div>
+
+    <script src="/script/sheet_metal_script.js"></script>
+    
+</body>
+</html>

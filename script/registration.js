@@ -1,3 +1,4 @@
+// Замініть ваш код реєстрації на цей:
 document.querySelector('.form_reg').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -11,22 +12,29 @@ document.querySelector('.form_reg').addEventListener('submit', async (e) => {
         return;
     }
 
-    const response = await fetch('http://localhost:5000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password })
-    });
+    try {
+        // Створення користувача в Firebase Auth
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
 
-    const data = await response.json();
-    alert(data.message);
+        // Збереження додаткової інформації в Firestore
+        await db.collection('users').doc(user.uid).set({
+            username: username,
+            email: email,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            isOnline: true
+        });
+
+        // Оновлення профілю користувача
+        await user.updateProfile({
+            displayName: username
+        });
+
+        alert('Реєстрація успішна!');
+        window.location.href = "home_page.html";
+
+    } catch (error) {
+        console.error('Помилка реєстрації:', error);
+        alert('Помилка реєстрації: ' + error.message);
+    }
 });
-
-// Path: script/login.js Кнопка до авторизації
-let login = document.querySelector(".have_account");
-
-
-function loginUserSite(){
-    window.location.href = "autorization.html"
-}
-
-login.addEventListener("click", loginUserSite)

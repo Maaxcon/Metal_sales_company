@@ -6,13 +6,46 @@
     <title>МетаВоркс - Металопрокат України</title>
     <link rel="stylesheet" href="/css/home_page.css">
     <link rel="stylesheet" href="/css/window_error.css">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDD31yJxSyUbEayytXdnOyLMuEaMra_wKs",
+        authDomain: "my-metaworks.firebaseapp.com",
+        projectId: "my-metaworks",
+        storageBucket: "my-metaworks.firebasestorage.app",
+        messagingSenderId: "651526242373",
+        appId: "1:651526242373:web:a590989d8ce6db3458e32c"
+    };
+
+    // Ініціалізація Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    </script>
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header>
             <div class="logo">МетаВоркс</div>
-            <button class="login-btn">Вхід / Реєстрація</button>
+            <div class="user-section">
+                <!-- Показується коли користувач не увійшов -->
+                <button class="login-btn" id="loginBtn">Вхід / Реєстрація</button>
+                
+                <!-- Показується коли користувач увійшов (спочатку приховано) -->
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <div class="user-info">
+                        <span class="user-name" id="userName">Користувач</span>
+                        <div class="user-menu">
+                            <button class="profile-btn" id="profileBtn">Профіль</button>
+                            <button class="logout-btn" id="logoutBtn">Вийти</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <!-- Hero Section -->
@@ -80,7 +113,7 @@
         </div>
 
         <!-- Featured Suppliers -->
-        <h3 class="featured-title">Провідні постачальники цього місяця</h3>
+        <!-- <h3 class="featured-title">Провідні постачальники цього місяця</h3>
         <div class="suppliers">
             <div class="supplier">
                 <div class="supplier-header">
@@ -166,7 +199,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Our Advantages -->
         <h3 class="featured-title">Наші переваги</h3>
         <div class="advantages-grid">
@@ -234,6 +267,6 @@
         </footer>
     </div>
     <script src="/script/form_home.js"></script>
-    <script src="/script/homepage.js"></script>
+    <script src="/script/auth.js"></script>
 </body>
 </html>
