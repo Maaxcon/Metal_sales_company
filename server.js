@@ -46,6 +46,10 @@ app.get('/flat_products', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'flat_products.html')); // сторінка продуктів
 });
 
+app.get('/square_products', (req, res) => {
+  res.sendFile(path.join(__dirname, 'html', 'square_products.html')); // сторінка продуктів
+});
+
 // Роут для реєстрації користувача
 app.post("/register", async (req, res) => {
   const { username, email, password } = req.body;

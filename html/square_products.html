@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Каталог листового прокату - МетаВоркс</title>
+    <title>Каталог квадрата - МетаВоркс</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/products.css">
     <link rel="stylesheet" href="/css/window_error.css">
@@ -36,7 +36,7 @@
             </div>
             
             <div class="search-bar">
-                <input type="text" class="input_search" placeholder="Пошук листового прокату..." id="searchInput">
+                <input type="text" class="input_search" placeholder="Пошук квадрата..." id="searchInput">
                 <button class="search_product_but" id="searchBtn"><i class="fas fa-search"></i></button>
             </div>
             
@@ -66,11 +66,11 @@
         <!-- Main Content -->
         <div class="main-content">
             <div class="breadcrumb">
-                <a href="home_page.html">Головна</a> > <span>Каталог листового прокату</span>
+                <a href="home_page.html">Головна</a> > <span>Каталог квадрата</span>
             </div>
 
             <div class="page-header">
-                <h1 class="page-title">Листовий прокат</h1>
+                <h1 class="page-title">Каталог квадрата</h1>
                 <div class="results-count" id="resultsCount">Завантаження...</div>
             </div>
 
@@ -79,70 +79,20 @@
                 <div class="filters">
                     <div class="filter-section">
                         <div class="filter-header">
-                            <h3>Тип листа</h3>
+                            <h3>Номер профілю</h3>
                             <span class="filter-toggle">−</span>
                         </div>
-                        <ul class="filter-options" id="typeFilter">
-                            <li><input type="checkbox" value="cold_rolled" id="cold_rolled"> <label for="cold_rolled">Холоднокатаний</label></li>
-                            <li><input type="checkbox" value="hot_rolled" id="hot_rolled"> <label for="hot_rolled">Гарячекатаний</label></li>
-                            <li><input type="checkbox" value="galvanized" id="galvanized"> <label for="galvanized">Оцинкований</label></li>
-                            <li><input type="checkbox" value="corrugated" id="corrugated"> <label for="corrugated">Рифлений</label></li>
-                            <li><input type="checkbox" value="perforated" id="perforated"> <label for="perforated">Просічно-витяжний</label></li>
-                        </ul>
-                    </div>
-
-                    <div class="filter-section">
-                        <div class="filter-header">
-                            <h3>Товщина</h3>
-                            <span class="filter-toggle">−</span>
-                        </div>
-                        <ul class="filter-options" id="thicknessFilter">
-                            <li><input type="checkbox" value="0.4" id="t04"> <label for="t04">0.4 мм</label></li>
-                            <li><input type="checkbox" value="0.5" id="t05"> <label for="t05">0.5 мм</label></li>
-                            <li><input type="checkbox" value="0.6" id="t06"> <label for="t06">0.6 мм</label></li>
-                            <li><input type="checkbox" value="0.7" id="t07"> <label for="t07">0.7 мм</label></li>
-                            <li><input type="checkbox" value="0.8" id="t08"> <label for="t08">0.8 мм</label></li>
-                            <li><input type="checkbox" value="1" id="t1"> <label for="t1">1 мм</label></li>
-                            <li><input type="checkbox" value="1.2" id="t1_2"> <label for="t1_2">1.2 мм</label></li>
-                            <li><input type="checkbox" value="1.5" id="t15"> <label for="t15">1.5 мм</label></li>
-                            <li><input type="checkbox" value="2" id="t2"> <label for="t2">2 мм</label></li>
-                            <li><input type="checkbox" value="2.5" id="t25"> <label for="t25">2.5 мм</label></li>
-                            <li><input type="checkbox" value="3" id="t3"> <label for="t3">3 мм</label></li>
-                            <li><input type="checkbox" value="4" id="t4"> <label for="t4">4 мм</label></li>
-                            <li><input type="checkbox" value="5" id="t5"> <label for="t5">5 мм</label></li>
-                            <li><input type="checkbox" value="6" id="t6"> <label for="t6">6 мм</label></li>
-                            <li><input type="checkbox" value="8" id="t8"> <label for="t8">8 мм</label></li>
-                            <li><input type="checkbox" value="10" id="t10"> <label for="t10">10 мм</label></li>
-                            <li><input type="checkbox" value="12" id="t_12"> <label for="t_12">12 мм</label></li>
-                        </ul>
-                    </div>
-
-                    <div class="filter-section">
-                        <div class="filter-header">
-                            <h3>Ширина</h3>
-                            <span class="filter-toggle">−</span>
-                        </div>
-                        <ul class="filter-options" id="widthFilter">
-                            <li><input type="checkbox" value="1000" id="w1000"> <label for="w1000">1000 мм</label></li>
-                            <li><input type="checkbox" value="1250" id="w1250"> <label for="w1250">1250 мм</label></li>
-                            <li><input type="checkbox" value="1500" id="w1500"> <label for="w1500">1500 мм</label></li>
-                            <li><input type="checkbox" value="2000" id="w2000"> <label for="w2000">2000 мм</label></li>
-                            <li><input type="checkbox" value="2500" id="w2500"> <label for="w2500">2500 мм</label></li>
-                        </ul>
-                    </div>
-
-                    <div class="filter-section">
-                        <div class="filter-header">
-                            <h3>Довжина</h3>
-                            <span class="filter-toggle">−</span>
-                        </div>
-                        <ul class="filter-options" id="lengthFilter">
-                            <li><input type="checkbox" value="2000" id="l2000"> <label for="l2000">2000 мм</label></li>
-                            <li><input type="checkbox" value="2500" id="l2500"> <label for="l2500">2500 мм</label></li>
-                            <li><input type="checkbox" value="3000" id="l3000"> <label for="l3000">3000 мм</label></li>
-                            <li><input type="checkbox" value="4000" id="l4000"> <label for="l4000">4000 мм</label></li>
-                            <li><input type="checkbox" value="6000" id="l6000"> <label for="l6000">6000 мм</label></li>
-                            <li><input type="checkbox" value="12000" id="l12000"> <label for="l12000">12000 мм</label></li>
+                        <ul class="filter-options" id="profileNumberFilter">
+                            <li><input type="checkbox" value="15x15" id="p15x15"> <label for="p15x15">15x15</label></li>
+                            <li><input type="checkbox" value="20x20" id="p20x20"> <label for="p20x20">20x20</label></li>
+                            <li><input type="checkbox" value="25x25" id="p25x25"> <label for="p25x25">25x25</label></li>
+                            <li><input type="checkbox" value="30x30" id="p30x30"> <label for="p30x30">30x30</label></li>
+                            <li><input type="checkbox" value="40x40" id="p40x40"> <label for="p40x40">40x40</label></li>
+                            <li><input type="checkbox" value="50x50" id="p50x50"> <label for="p50x50">50x50</label></li>
+                            <li><input type="checkbox" value="60x60" id="p60x60"> <label for="p60x60">60x60</label></li>
+                            <li><input type="checkbox" value="80x80" id="p80x80"> <label for="p80x80">80x80</label></li>
+                            <li><input type="checkbox" value="100x100" id="p100x100"> <label for="p100x100">100x100</label></li>
+                            <li><input type="checkbox" value="120x120" id="p120x120"> <label for="p120x120">120x120</label></li>
                         </ul>
                     </div>
 
@@ -152,35 +102,53 @@
                             <span class="filter-toggle">−</span>
                         </div>
                         <ul class="filter-options" id="steelGradeFilter">
-                            <li><input type="checkbox" value="08kp" id="08kp"> <label for="08kp">08кп</label></li>
-                            <li><input type="checkbox" value="dx51d" id="dx51d"> <label for="dx51d">DX51D</label></li>
-                            <li><input type="checkbox" value="ch" id="ch"> <label for="ch">СП</label></li>
-                            <li><input type="checkbox" value="st3ncn" id="st3ncn"> <label for="st3ncn">ст-3пс/сп</label></li>
-                            <li><input type="checkbox" value="st3ps35310" id="st3ps35310"> <label for="st3ps35310">ст-3пс/ст35310</label></li>
-                            <li><input type="checkbox" value="st5ps35310" id="st5ps35310"> <label for="st5ps35310">ст-5пс/ст35310</label></li>
+                            <li><input type="checkbox" value="ст1-3сп/пс" id="st1"> <label for="st1">ст1-3сп/пс</label></li>
+                            <li><input type="checkbox" value="AISI 304" id="aisi304"> <label for="aisi304">AISI 304</label></li>
+                            <li><input type="checkbox" value="оцинкований" id="galv"> <label for="galv">оцинкований</label></li>
                         </ul>
                     </div>
 
                     <div class="filter-section">
                         <div class="filter-header">
-                            <h3>Клас</h3>
+                            <h3>Довжина</h3>
                             <span class="filter-toggle">−</span>
                         </div>
-                        <ul class="filter-options" id="classFilter">
-                            <li><input type="checkbox" value="zn140" id="zn140"> <label for="zn140">Zn140</label></li>
+                        <ul class="filter-options" id="lengthFilter">
+                            <li><input type="checkbox" value="6000" id="l6000"> <label for="l6000">6000</label></li>
                         </ul>
                     </div>
 
                     <div class="filter-section">
                         <div class="filter-header">
-                            <h3>Номер профілю</h3>
+                            <h3>Товщина</h3>
                             <span class="filter-toggle">−</span>
                         </div>
-                        <ul class="filter-options" id="profileFilter">
-                            <li><input type="checkbox" value="pbv306" id="pbv306"> <label for="pbv306">ПВЛ 306</label></li>
-                            <li><input type="checkbox" value="pbv406" id="pbv406"> <label for="pbv406">ПВЛ 406</label></li>
-                            <li><input type="checkbox" value="pbv506" id="pbv506"> <label for="pbv506">ПВЛ 506</label></li>
-                            <li><input type="checkbox" value="pbv606" id="pbv606"> <label for="pbv606">ПВЛ 606</label></li>
+                        <ul class="filter-options" id="thicknessFilter">
+                            <li><input type="checkbox" value="1.5" id="t1_5"> <label for="t1_5">1.5</label></li>
+                            <li><input type="checkbox" value="2" id="t2"> <label for="t2">2</label></li>
+                            <li><input type="checkbox" value="3" id="t3"> <label for="t3">3</label></li>
+                            <li><input type="checkbox" value="4" id="t4"> <label for="t4">4</label></li>
+                            <li><input type="checkbox" value="5" id="t5"> <label for="t5">5</label></li>
+                            <li><input type="checkbox" value="6" id="t6"> <label for="t6">6</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h3>Ширина</h3>
+                            <span class="filter-toggle">−</span>
+                        </div>
+                        <ul class="filter-options" id="widthFilter">
+                            <li><input type="checkbox" value="15" id="w15"> <label for="w15">15</label></li>
+                            <li><input type="checkbox" value="20" id="w20"> <label for="w20">20</label></li>
+                            <li><input type="checkbox" value="25" id="w25"> <label for="w25">25</label></li>
+                            <li><input type="checkbox" value="30" id="w30"> <label for="w30">30</label></li>
+                            <li><input type="checkbox" value="40" id="w40"> <label for="w40">40</label></li>
+                            <li><input type="checkbox" value="50" id="w50"> <label for="w50">50</label></li>
+                            <li><input type="checkbox" value="60" id="w60"> <label for="w60">60</label></li>
+                            <li><input type="checkbox" value="80" id="w80"> <label for="w80">80</label></li>
+                            <li><input type="checkbox" value="100" id="w100"> <label for="w100">100</label></li>
+                            <li><input type="checkbox" value="120" id="w120"> <label for="w120">120</label></li>
                         </ul>
                     </div>
 
@@ -221,8 +189,6 @@
                                 <option value="price-desc">Ціна: від високої до низької</option>
                                 <option value="name-asc">Назва: А-Я</option>
                                 <option value="name-desc">Назва: Я-А</option>
-                                <option value="thickness-asc">Товщина: від тонкого до товстого</option>
-                                <option value="thickness-desc">Товщина: від товстого до тонкого</option>
                             </select>
                         </div>
                         <div class="view-toggle">
@@ -304,7 +270,6 @@
         <span id="toastMessage">Товар додано до кошика!</span>
     </div>
 
-    <script src="/script/sheet_metal_script.js"></script>
-    
+    <script src="/script/square_products_script.js"></script>
 </body>
 </html>

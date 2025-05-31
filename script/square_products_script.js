@@ -1,7 +1,7 @@
 // Глобальні змінні
 let allProducts = [];
 let filteredProducts = [];
-let cart = JSON.parse(localStorage.getItem('metaworks_sheet_metal_cart')) || [];
+let cart = JSON.parse(localStorage.getItem('metaworks_cart')) || [];
 let currentUser = null;
 
 // DOM елементи
@@ -177,11 +177,12 @@ async function loadProducts() {
             return;
         }
 
-        const snapshot = await db.collection('sheet_metal').orderBy('thickness').get();
+        // ВИПРАВЛЕНО: змінено з 'squares' на 'square_profiles'
+        const snapshot = await db.collection('square_profiles').orderBy('profileNumber').get();
         allProducts = [];
         
         if (snapshot.empty) {
-            console.log('Колекція rebar порожня або не існує');
+            console.log('Колекція square_profiles порожня або не існує');
             showNoProducts();
             return;
         }
@@ -189,22 +190,21 @@ async function loadProducts() {
         snapshot.forEach(doc => {
             const data = doc.data();
             allProducts.push({
-            id: doc.id,
-            name: data.name || `Лист ${data.thickness}×${data.width}×${data.length}мм`,
-            thickness: data.thickness || 0,
-            width: data.width || 1000,
-            length: data.length || 2000,
-            type: data.type || 'cold_rolled', // холоднокатаний, гарячекатаний
-            steelGrade: data.steelGrade || '08kp',
-            price: data.price || 0,
-            weight: data.weight || null,
-            minOrder: data.minOrder || 1,
-            inStock: data.inStock !== false,
-            image: data.image || '/img/sheet-metal/sheet-metal.jpg',
-            description: data.description || '',
-            badge: data.badge || null,
-            category: 'sheet_metal',
-            ...data // Додаємо інші поля, якщо є
+                id: doc.id,
+                name: data.name || `Квадрат ${data.profileNumber}мм`,
+                profileNumber: data.profileNumber || '10x10',
+                steelGrade: data.steelGrade || 'ст1-3сп/пс',
+                length: data.length || 6000,
+                thickness: data.thickness || 10,
+                width: data.width || 10,
+                price: data.price || 0,
+                weight: data.weight || null,
+                minOrder: data.minOrder || 1,
+                inStock: data.inStock !== false,
+                image: data.image || '/img/img_home/square-default.jpg',
+                description: data.description || '',
+                badge: data.badge || null,
+                ...data
             });
         });
         
@@ -247,27 +247,28 @@ function createProductCard(product) {
         <div class="product-card" data-id="${product.id}">
             ${badgeHtml}
             <div class="product-image-container">
-                <img src="${product.image || '/img/sheet-metal/sheet-metal.jpg'}" 
+                <img src="${product.image || '/img/img_home/rebar-default.jpg'}" 
                      alt="${product.name}" 
                      class="product-image"
-                     onerror="this.src='/img/sheet-metal/sheet-metal.jpg'">
+                     onerror="this.src='/img/img_home/rebar-default.jpg'">
                 <div class="quick-view" onclick="quickView('${product.id}')">
                     <i class="fas fa-eye"></i> Швидкий перегляд
                 </div>
             </div>
             <div class="product-info">
-                <div class="product-category">Лист ${product.thickness}мм</div>
+                <div class="product-category">Квадрат ${product.profileNumber}мм</div>
                 <h4 class="product-title">${product.name}</h4>
                 <div class="product-specs">
-                    <div><strong>Товщина:</strong> ${product.thickness}мм</div>
-                    <div><strong>Розміри:</strong> ${product.width}×${product.length}мм</div>
-                    <div><strong>Тип:</strong> ${product.type === 'cold_rolled' ? 'Холоднокатаний' : 'Гарячекатаний'}</div>
+                    <div><strong>Профіль:</strong> ${product.profileNumber}мм</div>
                     <div><strong>Марка сталі:</strong> ${product.steelGrade}</div>
-                    ${product.weight ? `<div><strong>Вага:</strong> ${product.weight} кг</div>` : ''}
+                    <div><strong>Довжина:</strong> ${product.length}мм</div>
+                    <div><strong>Товщина:</strong> ${product.thickness}мм</div>
+                    <div><strong>Ширина:</strong> ${product.width}мм</div>
+                    ${product.weight ? `<div><strong>Вага:</strong> ${product.weight} кг/м</div>` : ''}
                 </div>
                 <div class="product-price">
-                    ₴${product.price.toFixed(2)} за лист
-                    ${product.minOrder ? `<div style="font-size: 12px; color: #666;">Мін. замовлення: ${product.minOrder} шт</div>` : ''}
+                    ₴${product.price.toFixed(2)} за м
+                    ${product.minOrder ? `<div style="font-size: 12px; color: #666;">Мін. замовлення: ${product.minOrder}м</div>` : ''}
                 </div>
                 <div class="product-actions">
                     <button class="add-to-cart-btn ${isOutOfStock ? 'disabled' : ''}" 
@@ -303,16 +304,17 @@ function addToCart(productId) {
             id: productId,
             name: product.name,
             price: product.price,
-            image: product.image || '/img/sheet-metal/sheet-metal.jpg',
+            image: product.image || '/img/img_home/square-default.jpg',
+            profileNumber: product.profileNumber,
+            steelGrade: product.steelGrade,
+            length: product.length,
             thickness: product.thickness,
             width: product.width,
-            length: product.length,
-            type: product.type,
-            steelGrade: product.steelGrade,
             weight: product.weight,
             minOrder: product.minOrder || 1,
             quantity: quantity
         });
+
     }
     
     saveCart();
@@ -331,7 +333,7 @@ function addToCart(productId) {
 
 // Збереження кошика в localStorage
 function saveCart() {
-    localStorage.setItem('metaworks_sheet_metal_cart', JSON.stringify(cart));
+    localStorage.setItem('metaworks_cart', JSON.stringify(cart));
 }
 
 // Оновлення UI кошика
@@ -377,38 +379,37 @@ function updateCartModal() {
     
     // Формування HTML для товарів у кошику
     const cartItemsHTML = cart.map(item => `
-    <div class="cart-item" data-id="${item.id}">
-        <div class="cart-item-image">
-            <img src="${item.image}" alt="${item.name}" onerror="this.src='/img/sheet-metal/sheet-metal.jpg'">
-        </div>
-        <div class="cart-item-details">
-            <h4 class="cart-item-title">${item.name}</h4>
-            <div class="cart-item-price">₴${item.price.toFixed(2)} за лист</div>
-            <div class="cart-item-specs">${item.thickness}мм, ${item.width}×${item.length}мм</div>
-            <div class="cart-item-type">${item.type === 'cold_rolled' ? 'Холоднокатаний' : 'Гарячекатаний'}</div>
-            ${item.weight ? `<div class="cart-item-weight">Вага: ${(item.weight * item.quantity).toFixed(2)} кг</div>` : ''}
-        </div>
-        <div class="cart-item-quantity">
-            <button class="quantity-btn" onclick="changeQuantity('${item.id}', -${item.minOrder || 1})">
-                <i class="fas fa-minus"></i>
+        <div class="cart-item" data-id="${item.id}">
+            <div class="cart-item-image">
+                <img src="${item.image}" alt="${item.name}" onerror="this.src='/img/img_home/rebar-default.jpg'">
+            </div>
+            <div class="cart-item-details">
+                <h4 class="cart-item-title">${item.name}</h4>
+                <div class="cart-item-price">₴${item.price.toFixed(2)} за м</div>
+                <div class="cart-item-specs">${item.profileNumber}мм, ${item.steelGrade}</div>
+                ${item.weight ? `<div class="cart-item-weight">Вага: ${(item.weight * item.quantity).toFixed(2)} кг</div>` : ''}
+            </div>
+            <div class="cart-item-quantity">
+                <button class="quantity-btn" onclick="changeQuantity('${item.id}', -${item.minOrder || 1})">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <input type="number" class="quantity-input" 
+                       value="${item.quantity}" 
+                       min="${item.minOrder || 1}" 
+                       step="${item.minOrder || 1}"
+                       onchange="updateQuantity('${item.id}', this.value)">
+                <button class="quantity-btn" onclick="changeQuantity('${item.id}', ${item.minOrder || 1})">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            <div class="cart-item-total">
+                ₴${(item.price * item.quantity).toFixed(2)}
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">
+                <i class="fas fa-trash-alt"></i>
             </button>
-            <input type="number" class="quantity-input" 
-                   value="${item.quantity}" 
-                   min="${item.minOrder || 1}" 
-                   step="${item.minOrder || 1}"
-                   onchange="updateQuantity('${item.id}', this.value)">
-            <button class="quantity-btn" onclick="changeQuantity('${item.id}', ${item.minOrder || 1})">
-                <i class="fas fa-plus"></i>
-            </button>
         </div>
-        <div class="cart-item-total">
-            ₴${(item.price * item.quantity).toFixed(2)}
-        </div>
-        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">
-            <i class="fas fa-trash-alt"></i>
-        </button>
-    </div>
-`).join('');
+    `).join('');
     
     cartBody.innerHTML = `
         <div class="cart-summary-top">
@@ -491,23 +492,12 @@ function removeFromCart(productId) {
 
 
 // Сортування товарів
+// Виправлена функція сортування товарів
 function sortProducts() {
     const sortValue = document.getElementById('sortSelect')?.value || 'default';
     console.log('Сортування:', sortValue);
     
     switch (sortValue) {
-        case 'thickness-asc':
-            filteredProducts.sort((a, b) => a.thickness - b.thickness);
-            break;
-        case 'thickness-desc':
-            filteredProducts.sort((a, b) => b.thickness - a.thickness);
-            break;
-        case 'size-asc':
-            filteredProducts.sort((a, b) => (a.width * a.length) - (b.width * b.length));
-            break;
-        case 'size-desc':
-            filteredProducts.sort((a, b) => (b.width * b.length) - (a.width * a.length));
-            break;
         case 'price-asc':
             filteredProducts.sort((a, b) => a.price - b.price);
             break;
@@ -521,8 +511,35 @@ function sortProducts() {
             filteredProducts.sort((a, b) => b.name.localeCompare(a.name, 'uk'));
             break;
         default:
-            // Сортування за замовчуванням (за товщиною)
-            filteredProducts.sort((a, b) => a.thickness - b.thickness);
+            // Сортування за замовчуванням (за профілем)
+            filteredProducts.sort((a, b) => {
+                // Безпечне отримання числового значення профілю
+                const getProfileNumber = (profileNumber) => {
+                    if (!profileNumber) return 0;
+                    
+                    // Якщо це рядок у форматі "10x10"
+                    if (typeof profileNumber === 'string' && profileNumber.includes('x')) {
+                        const parts = profileNumber.split('x');
+                        return parseInt(parts[0]) || 0;
+                    }
+                    
+                    // Якщо це просто число або рядок з числом
+                    return parseInt(profileNumber) || 0;
+                };
+                
+                const aProfile = getProfileNumber(a.profileNumber);
+                const bProfile = getProfileNumber(b.profileNumber);
+                
+                if (aProfile !== bProfile) {
+                    return aProfile - bProfile;
+                }
+                
+                // Якщо профілі однакові, сортуємо за товщиною
+                const aThickness = parseInt(a.thickness) || 0;
+                const bThickness = parseInt(b.thickness) || 0;
+                
+                return aThickness - bThickness;
+            });
     }
     
     displayProducts(filteredProducts);
@@ -537,18 +554,17 @@ function searchProducts() {
     if (!searchTerm) {
         filteredProducts = [...allProducts];
     } else {
-        filteredProducts = allProducts.filter(product => 
+       filteredProducts = allProducts.filter(product => 
             product.name.toLowerCase().includes(searchTerm) ||
             (product.description && product.description.toLowerCase().includes(searchTerm)) ||
-            product.type.toLowerCase().includes(searchTerm) ||
             product.steelGrade.toLowerCase().includes(searchTerm) ||
+            product.profileNumber.toLowerCase().includes(searchTerm) ||
             product.thickness.toString().includes(searchTerm) ||
-            (product.width && product.width.toString().includes(searchTerm)) ||
-            (product.length && product.length.toString().includes(searchTerm))
+            product.width.toString().includes(searchTerm)
         );
     }
     
-    applyFilters();
+    applyFilters(); // Застосовуємо фільтри після пошуку
 }
 
 // Очищення фільтрів
@@ -588,19 +604,20 @@ function quickView(productId) {
                     <img src="${product.image}" alt="${product.name}" onerror="this.src='/img/img_home/rebar-default.jpg'">
                 </div>
                 <div class="quick-view-details">
-                    <div class="product-category">Лист ${product.thickness}мм</div>
-                        <h2>${product.name}</h2>
-                        <div class="product-specs">
-                            <div><strong>Товщина:</strong> ${product.thickness}мм</div>
-                            <div><strong>Розміри:</strong> ${product.width}×${product.length}мм</div>
-                            <div><strong>Тип:</strong> ${product.type === 'cold_rolled' ? 'Холоднокатаний' : 'Гарячекатаний'}</div>
-                            <div><strong>Марка сталі:</strong> ${product.steelGrade}</div>
-                            ${product.weight ? `<div><strong>Вага:</strong> ${product.weight} кг</div>` : ''}
-                            <div><strong>Статус:</strong> ${product.inStock ? 'В наявності' : 'Під замовлення'}</div>
-                        </div>
-                        ${product.description ? `<div class="product-description">${product.description}</div>` : ''}
-                        <div class="product-price">₴${product.price.toFixed(2)} за лист</div>
-                        ${product.minOrder ? `<div class="min-order">Мінімальне замовлення: ${product.minOrder} шт</div>` : ''}
+                    <div class="product-category">Арматура ${product.diameter}мм</div>
+                    <h2>${product.name}</h2>
+                    <div class="product-specs">
+                    <div><strong>Профіль:</strong> ${product.profileNumber}мм</div>
+                    <div><strong>Марка сталі:</strong> ${product.steelGrade}</div>
+                    <div><strong>Довжина:</strong> ${product.length}мм</div>
+                    <div><strong>Товщина:</strong> ${product.thickness}мм</div>
+                    <div><strong>Ширина:</strong> ${product.width}мм</div>
+                    ${product.weight ? `<div><strong>Вага:</strong> ${product.weight} кг/м</div>` : ''}
+                    <div><strong>Статус:</strong> ${product.inStock ? 'В наявності' : 'Під замовлення'}</div>
+                </div>
+                    ${product.description ? `<div class="product-description">${product.description}</div>` : ''}
+                    <div class="product-price">₴${product.price.toFixed(2)} за м</div>
+                    ${product.minOrder ? `<div class="min-order">Мінімальне замовлення: ${product.minOrder}м</div>` : ''}
                     <button class="add-to-cart-btn ${!product.inStock ? 'disabled' : ''}" 
                             onclick="addToCart('${product.id}'); closeQuickView();" 
                             ${!product.inStock ? 'disabled' : ''}>
@@ -868,13 +885,13 @@ function formatPrice(price) {
 
 // Функція для перевірки чи товар в обраних
 function isProductInFavorites(productId) {
-    const favorites = JSON.parse(localStorage.getItem('metaworks_sheet_metal_favorites')) || [];
+    const favorites = JSON.parse(localStorage.getItem('metaworks_favorites')) || [];
     return favorites.includes(productId);
 }
 
 // Додавання/видалення з обраних
 function toggleFavorite(productId) {
-    let favorites = JSON.parse(localStorage.getItem('metaworks_sheet_metal_favorites')) || [];
+    let favorites = JSON.parse(localStorage.getItem('metaworks_favorites')) || [];
     const index = favorites.indexOf(productId);
     
     if (index > -1) {
@@ -885,7 +902,7 @@ function toggleFavorite(productId) {
         showToast('Товар додано до обраних', 'success');
     }
     
-    localStorage.setItem('metaworks_sheet_metal_favorites', JSON.stringify(favorites));
+    localStorage.setItem('metaworks_favorites', JSON.stringify(favorites));
     
     // Оновлюємо іконку в UI
     const heartIcon = document.querySelector(`[onclick="toggleFavorite('${productId}')"] i`);
@@ -902,8 +919,8 @@ function getRecommendedProducts(currentProductId, limit = 4) {
     // Рекомендуємо товари з тим же класом арматури або близьким діаметром
     return allProducts
         .filter(p => p.id !== currentProductId && p.inStock)
-        .filter(p => p.class === currentProduct.class || 
-                    Math.abs(p.diameter - currentProduct.diameter) <= 2)
+        .filter(p => p.steelGrade === currentProduct.steelGrade || 
+            Math.abs(p.thickness - currentProduct.thickness) <= 2)
         .sort((a, b) => {
             // Спочатку товари з тим же класом
             if (a.class === currentProduct.class && b.class !== currentProduct.class) return -1;
@@ -946,16 +963,14 @@ function exportProductsList(format = 'csv') {
     }
     
     const data = filteredProducts.map(product => ({
-    'Назва': product.name,
-    'Товщина (мм)': product.thickness,
-    'Ширина (мм)': product.width,
-    'Довжина (мм)': product.length,
-    'Тип': product.type === 'cold_rolled' ? 'Холоднокатаний' : 'Гарячекатаний',
-    'Марка сталі': product.steelGrade,
-    'Ціна (₴/лист)': product.price,
-    'Вага (кг)': product.weight || 'Н/Д',
-    'Наявність': product.inStock ? 'В наявності' : 'Під замовлення'
-}));
+        'Назва': product.name,
+        'Діаметр (мм)': product.diameter,
+        'Клас': product.class,
+        'Довжина (м)': product.length,
+        'Ціна (₴/м)': product.price,
+        'Вага (кг/м)': product.weight || 'Н/Д',
+        'Наявність': product.inStock ? 'В наявності' : 'Під замовлення'
+    }));
     
     if (format === 'csv') {
         const csv = [
@@ -976,19 +991,11 @@ function exportProductsList(format = 'csv') {
 // Функція для збереження стану фільтрів
 function saveFiltersState() {
     const filtersState = {
-        // ЗАМІНИТИ diameter НА thickness:
-        thickness: Array.from(document.querySelectorAll('#thicknessFilter input:checked')).map(cb => cb.value),
-        
-        // ЗАМІНИТИ class НА type (і виправити селектор):
-        type: Array.from(document.querySelectorAll('#typeFilter input:checked')).map(cb => cb.value),
-        
-        // ДОДАТИ всі інші фільтри:
-        width: Array.from(document.querySelectorAll('#widthFilter input:checked')).map(cb => cb.value),
-        length: Array.from(document.querySelectorAll('#lengthFilter input:checked')).map(cb => cb.value),
+        profileNumber: Array.from(document.querySelectorAll('#profileNumberFilter input:checked')).map(cb => cb.value),
         steelGrade: Array.from(document.querySelectorAll('#steelGradeFilter input:checked')).map(cb => cb.value),
-        class: Array.from(document.querySelectorAll('#classFilter input:checked')).map(cb => cb.value),
-        profile: Array.from(document.querySelectorAll('#profileFilter input:checked')).map(cb => cb.value),
-        
+        length: Array.from(document.querySelectorAll('#lengthFilter input:checked')).map(cb => cb.value),
+        thickness: Array.from(document.querySelectorAll('#thicknessFilter input:checked')).map(cb => cb.value),
+        width: Array.from(document.querySelectorAll('#widthFilter input:checked')).map(cb => cb.value),
         priceFrom: document.getElementById('priceFrom')?.value || '',
         priceTo: document.getElementById('priceTo')?.value || '',
         inStock: document.getElementById('inStock')?.checked || false,
@@ -997,68 +1004,46 @@ function saveFiltersState() {
         searchTerm: document.getElementById('searchInput')?.value || ''
     };
     
-    localStorage.setItem('metaworks_sheet_metal_filters', JSON.stringify(filtersState));
+    localStorage.setItem('metaworks_catalog_filters', JSON.stringify(filtersState));
 }
 
 // Функція для відновлення стану фільтрів
 function restoreFiltersState() {
-    const saved = localStorage.getItem('metaworks_sheet_metal_filters');
+    const saved = localStorage.getItem('metaworks_catalog_filters');
     if (!saved) return;
     
     try {
         const filtersState = JSON.parse(saved);
         
-        // Відновлюємо товщину (замість діаметру)
-        if (filtersState.thickness) {
-            filtersState.thickness.forEach(value => {
-                const checkbox = document.querySelector(`#thicknessFilter input[value="${value}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
-        
-        // Відновлюємо тип (замість класу)
-        if (filtersState.type) {
-            filtersState.type.forEach(value => {
-                const checkbox = document.querySelector(`#typeFilter input[value="${value}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
-        
-        // ДОДАТИ відновлення всіх інших фільтрів:
-        if (filtersState.width) {
-            filtersState.width.forEach(value => {
-                const checkbox = document.querySelector(`#widthFilter input[value="${value}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
-        
-        if (filtersState.length) {
-            filtersState.length.forEach(value => {
-                const checkbox = document.querySelector(`#lengthFilter input[value="${value}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
-        
-        if (filtersState.steelGrade) {
-            filtersState.steelGrade.forEach(value => {
-                const checkbox = document.querySelector(`#steelGradeFilter input[value="${value}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
-        
-        if (filtersState.class) {
-            filtersState.class.forEach(value => {
-                const checkbox = document.querySelector(`#classFilter input[value="${value}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
-        
-        if (filtersState.profile) {
-            filtersState.profile.forEach(value => {
-                const checkbox = document.querySelector(`#profileFilter input[value="${value}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
+        // Відновлюємо профілі
+        filtersState.profileNumber?.forEach(value => {
+            const checkbox = document.querySelector(`#profileNumberFilter input[value="${value}"]`);
+            if (checkbox) checkbox.checked = true;
+        });
+
+        // Відновлюємо марки сталі
+        filtersState.steelGrade?.forEach(value => {
+            const checkbox = document.querySelector(`#steelGradeFilter input[value="${value}"]`);
+            if (checkbox) checkbox.checked = true;
+        });
+
+        // Відновлюємо довжини
+        filtersState.length?.forEach(value => {
+            const checkbox = document.querySelector(`#lengthFilter input[value="${value}"]`);
+            if (checkbox) checkbox.checked = true;
+        });
+
+        // Відновлюємо товщини
+        filtersState.thickness?.forEach(value => {
+            const checkbox = document.querySelector(`#thicknessFilter input[value="${value}"]`);
+            if (checkbox) checkbox.checked = true;
+        });
+
+        // Відновлюємо ширини
+        filtersState.width?.forEach(value => {
+            const checkbox = document.querySelector(`#widthFilter input[value="${value}"]`);
+            if (checkbox) checkbox.checked = true;
+        });
         
         // Відновлюємо ціни
         const priceFrom = document.getElementById('priceFrom');
@@ -1106,65 +1091,52 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Збереження фільтрів при їх зміні
+// Фільтрація товарів
 function applyFilters() {
     console.log('Застосування фільтрів...');
     let filtered = [...allProducts];
     
-    // Фільтр по діаметру
-    const thicknessFilters = Array.from(document.querySelectorAll('#thicknessFilter input:checked'))
-    .map(cb => parseFloat(cb.value));
-if (thicknessFilters.length > 0) {
-    filtered = filtered.filter(product => thicknessFilters.includes(product.thickness));
-    console.log('Фільтр по товщині:', thicknessFilters);
-}
-    
-    // Фільтр по класу
-    const typeFilters = Array.from(document.querySelectorAll('#typeFilter input:checked'))
-    .map(cb => cb.value);
-        if (typeFilters.length > 0) {
-            filtered = filtered.filter(product => typeFilters.includes(product.type));
-            console.log('Фільтр по типу:', typeFilters);
-        }
-
-    
-
+    // Фільтр по номеру профілю
+    const profileFilters = Array.from(document.querySelectorAll('#profileNumberFilter input:checked'))
+        .map(cb => cb.value);
+    if (profileFilters.length > 0) {
+        filtered = filtered.filter(product => profileFilters.includes(product.profileNumber));
+        console.log('Фільтр по профілю:', profileFilters);
+    }
     
     // Фільтр по марці сталі
-        const steelGradeFilters = Array.from(document.querySelectorAll('#steelGradeFilter input:checked'))
-            .map(cb => cb.value);
-        if (steelGradeFilters.length > 0) {
-            filtered = filtered.filter(product => steelGradeFilters.includes(product.steelGrade));
-            console.log('Фільтр по марці сталі:', steelGradeFilters);
-        }
-
-        // Фільтр по ширині
-        const widthFilters = Array.from(document.querySelectorAll('#widthFilter input:checked'))
-            .map(cb => parseInt(cb.value));
-        if (widthFilters.length > 0) {
-            filtered = filtered.filter(product => widthFilters.includes(product.width));
-        }
-
-        // Фільтр по довжині
-        const lengthFilters = Array.from(document.querySelectorAll('#lengthFilter input:checked'))
-            .map(cb => parseInt(cb.value));
-        if (lengthFilters.length > 0) {
-            filtered = filtered.filter(product => lengthFilters.includes(product.length));
-        }
-
-        // Фільтр по класу (якщо є)
-        const classFilters = Array.from(document.querySelectorAll('#classFilter input:checked'))
-            .map(cb => cb.value);
-        if (classFilters.length > 0) {
-            filtered = filtered.filter(product => product.class && classFilters.includes(product.class));
-        }
-
-        // Фільтр по профілю (якщо є)
-        const profileFilters = Array.from(document.querySelectorAll('#profileFilter input:checked'))
-            .map(cb => cb.value);
-        if (profileFilters.length > 0) {
-            filtered = filtered.filter(product => product.profile && profileFilters.includes(product.profile));
-        }
-        // Фільтр по ціні
+    const steelGradeFilters = Array.from(document.querySelectorAll('#steelGradeFilter input:checked'))
+        .map(cb => cb.value);
+    if (steelGradeFilters.length > 0) {
+        filtered = filtered.filter(product => steelGradeFilters.includes(product.steelGrade));
+        console.log('Фільтр по марці сталі:', steelGradeFilters);
+    }
+    
+    // Фільтр по довжині
+    const lengthFilters = Array.from(document.querySelectorAll('#lengthFilter input:checked'))
+        .map(cb => parseInt(cb.value));
+    if (lengthFilters.length > 0) {
+        filtered = filtered.filter(product => lengthFilters.includes(product.length));
+        console.log('Фільтр по довжині:', lengthFilters);
+    }
+    
+    // Фільтр по товщині
+    const thicknessFilters = Array.from(document.querySelectorAll('#thicknessFilter input:checked'))
+        .map(cb => parseInt(cb.value));
+    if (thicknessFilters.length > 0) {
+        filtered = filtered.filter(product => thicknessFilters.includes(product.thickness));
+        console.log('Фільтр по товщині:', thicknessFilters);
+    }
+    
+    // Фільтр по ширині
+    const widthFilters = Array.from(document.querySelectorAll('#widthFilter input:checked'))
+        .map(cb => parseInt(cb.value));
+    if (widthFilters.length > 0) {
+        filtered = filtered.filter(product => widthFilters.includes(product.width));
+        console.log('Фільтр по ширині:', widthFilters);
+    }
+    
+    // Фільтр по ціні (залишається без змін)
     const priceFrom = parseFloat(document.getElementById('priceFrom')?.value || 0);
     const priceTo = parseFloat(document.getElementById('priceTo')?.value || 0);
     
@@ -1175,7 +1147,7 @@ if (thicknessFilters.length > 0) {
         filtered = filtered.filter(product => product.price <= priceTo);
     }
     
-    // Фільтр по наявності
+    // Фільтр по наявності (залишається без змін)
     const inStockChecked = document.getElementById('inStock')?.checked;
     const outStockChecked = document.getElementById('outStock')?.checked;
     
@@ -1188,9 +1160,7 @@ if (thicknessFilters.length > 0) {
     filteredProducts = filtered;
     console.log(`Після фільтрації залишилось ${filteredProducts.length} товарів`);
     
-    // Зберігаємо стан фільтрів
     saveFiltersState();
-    
     sortProducts();
 }
 
@@ -1208,73 +1178,10 @@ function clearFilters() {
     if (searchInput) searchInput.value = '';
     
     // Очищуємо збережені фільтри
-    localStorage.removeItem('metaworks_sheet_metal_filters');
+    localStorage.removeItem('metaworks_catalog_filters');
     
     filteredProducts = [...allProducts];
     sortProducts();
     showToast('Фільтри очищено', 'info');
 }
 
-// Додайте цей код в ваш файл products_script.js
-
-// Функція пошуку товарів
-function searchProducts(query) {
-    const normalizedQuery = query.toLowerCase().trim();
-    
-    if (normalizedQuery === '') {
-        // Якщо пошуковий запит порожній, показати всі товари
-        loadProducts();
-        return;
-    }
-    
-    // Фільтрація товарів за назвою, описом або характеристиками
-    const filteredProducts = allProducts.filter(product => {
-        return product.name.toLowerCase().includes(normalizedQuery) ||
-               (product.description && product.description.toLowerCase().includes(normalizedQuery)) ||
-               product.diameter.toString().includes(normalizedQuery) ||
-               product.class.toLowerCase().includes(normalizedQuery);
-    });
-    
-    displayProducts(filteredProducts);
-    updateResultsCount(filteredProducts.length);
-}
-
-// Обробник для кнопки пошуку
-document.getElementById('searchBtn').addEventListener('click', function() {
-    const searchInput = document.getElementById('searchInput');
-    const query = searchInput.value;
-    searchProducts(query);
-});
-
-// Обробник для натискання Enter в пошуковому полі
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        const query = this.value;
-        searchProducts(query);
-    }
-});
-
-// Додатково: пошук в реальному часі (необов'язково)
-document.getElementById('searchInput').addEventListener('input', function() {
-    const query = this.value;
-    
-    // Додати невелику затримку для оптимізації
-    clearTimeout(this.searchTimeout);
-    this.searchTimeout = setTimeout(() => {
-        searchProducts(query);
-    }, 300);
-});
-
-// Функція для оновлення кількості результатів
-function updateResultsCount(count) {
-    const resultsCount = document.getElementById('resultsCount');
-    if (count === 0) {
-        resultsCount.textContent = 'Товари не знайдені';
-    } else if (count === 1) {
-        resultsCount.textContent = 'Знайдено 1 товар';
-    } else if (count < 5) {
-        resultsCount.textContent = `Знайдено ${count} товари`;
-    } else {
-        resultsCount.textContent = `Знайдено ${count} товарів`;
-    }
-}
