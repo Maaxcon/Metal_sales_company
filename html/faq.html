@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Питання та відповіді - МетаВоркс</title>
+    <style>
+        /* Стилі для сторінки питань та відповідей - MetaWorks */
+
+        /* Використовуємо змінні з основного файлу стилів */
+        :root {
+            /* Color Palette - More industrial feel inspired by metinvest-smc.com */
+            --primary: #004687;
+            --primary-light: #0062b4;
+            --primary-dark: #00305e;
+            --accent: #ff7a00;
+            --text-dark: #1a202c;
+            --text-medium: #4a5568;
+            --text-light: #718096;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --border-light: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05);
+            
+            /* Typography */
+            --font-primary: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            --font-heading: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            
+            /* Spacing and Layout */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --spacing-3xl: 64px;
+            
+            /* Animation */
+            --transition-fast: 150ms ease;
+            --transition-normal: 250ms ease;
+            --transition-slow: 350ms ease;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--bg-white);
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo:after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 40%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-xl);
+        }
+
+        .nav-link {
+            color: var(--text-medium);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-normal);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width var(--transition-normal);
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active:after {
+            width: 100%;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-3xl) var(--spacing-lg);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+        }
+
+        .page-description {
+            color: var(--text-medium);
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-2xl);
+            line-height: 1.7;
+        }
+
+        /* Search Box */
+        .search-container {
+            margin-bottom: var(--spacing-2xl);
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            transition: all var(--transition-normal);
+            background-color: var(--bg-white);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 70, 135, 0.1);
+        }
+
+        .search-box::placeholder {
+            color: var(--text-light);
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .category-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: 2px solid var(--border-light);
+            background-color: var(--bg-white);
+            color: var(--text-medium);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            border-color: var(--primary);
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* FAQ Item Styles */
+        .faq-item {
+            margin-bottom: var(--spacing-lg);
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .faq-question {
+            padding: var(--spacing-xl);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            background-color: var(--bg-white);
+            transition: all var(--transition-normal);
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .faq-question:hover {
+            background-color: var(--bg-light);
+            color: var(--primary);
+        }
+
+        .faq-question.active {
+            background-color: rgba(0, 70, 135, 0.05);
+            color: var(--primary);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .faq-icon {
+            font-size: 1.2rem;
+            color: var(--accent);
+            transition: transform var(--transition-normal);
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 var(--spacing-xl) var(--spacing-xl);
+            color: var(--text-medium);
+            line-height: 1.7;
+            display: none;
+            animation: fadeInDown 0.3s ease;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        .faq-answer p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .faq-answer ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .faq-answer li {
+            position: relative;
+            padding-left: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .faq-answer li:before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.8rem;
+            top: 2px;
+        }
+
+        .faq-answer strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, rgba(0, 70, 135, 0.05), rgba(0, 70, 135, 0.08));
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(0, 70, 135, 0.1);
+            margin-top: var(--spacing-3xl);
+            text-align: center;
+            position: relative;
+        }
+
+        .contact-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+        }
+
+        .contact-section h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .contact-section p {
+            color: var(--text-medium);
+            margin-bottom: var(--spacing-xl);
+            font-size: 1.1rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-2xl);
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .contact-item strong {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            padding: var(--spacing-xl) 0;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            margin-top: var(--spacing-3xl);
+        }
+          
+        footer .logo {
+            font-size: 1.25rem;
+        }
+          
+        .footer-links {
+            display: flex;
+        }
+          
+        .footer-link {
+            margin-right: var(--spacing-xl);
+            transition: color var(--transition-normal);
+            position: relative;
+            cursor: pointer;
+        }
+          
+        .footer-link:hover {
+            color: var(--primary);
+        }
+          
+        .footer-link:after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width var(--transition-normal);
+        }
+          
+        .footer-link:hover:after {
+            width: 100%;
+        }
+          
+        .copyright {
+            font-size: 0.85rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .faq-item {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .faq-item:nth-child(1) { animation-delay: 0.1s; }
+        .faq-item:nth-child(2) { animation-delay: 0.15s; }
+        .faq-item:nth-child(3) { animation-delay: 0.2s; }
+        .faq-item:nth-child(4) { animation-delay: 0.25s; }
+        .faq-item:nth-child(5) { animation-delay: 0.3s; }
+        .faq-item:nth-child(6) { animation-delay: 0.35s; }
+        .faq-item:nth-child(7) { animation-delay: 0.4s; }
+        .faq-item:nth-child(8) { animation-delay: 0.45s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Media Queries */
+        @media (max-width: 991px) {
+            .header-content {
+                flex-direction: column;
+                height: auto;
+                padding: var(--spacing-lg);
+                gap: var(--spacing-lg);
+            }
+            
+            .nav-links {
+                gap: var(--spacing-lg);
+            }
+            
+            .main-content {
+                padding: var(--spacing-2xl) var(--spacing-lg);
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .header-content {
+                text-align: center;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .main-content {
+                padding: var(--spacing-xl) var(--spacing-md);
+            }
+            
+            .page-title {
+                font-size: 1.75rem;
+            }
+            
+            .categories {
+                justify-content: center;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            footer {
+                flex-direction: column;
+                gap: var(--spacing-lg);
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: var(--spacing-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: var(--spacing-lg) var(--spacing-sm);
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .faq-question {
+                padding: var(--spacing-lg);
+                font-size: 1rem;
+            }
+            
+            .faq-answer {
+                padding: 0 var(--spacing-lg) var(--spacing-lg);
+            }
+            
+            .contact-section {
+                padding: var(--spacing-xl);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <a href="home_page.html" style="text-decoration: none; color: inherit;">МетаВоркс</a>
+            </div>
+            <nav class="nav-links">
+                <a href="#" class="nav-link active">Питання та відповіді</a>
+                <a href="#" class="nav-link">Контакти</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h1 class="page-title">Питання та відповіді</h1>
+        <p class="page-description">
+            Знайдіть відповіді на найпоширеніші питання про наші послуги, замовлення та політику компанії. 
+            Якщо ви не знайшли потрібної інформації, зв'яжіться з нашою службою підтримки.
+        </p>
+
+        <!-- Search -->
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Пошук питань..." id="searchBox">
+        </div>
+
+        <!-- Categories -->
+        <div class="categories">
+            <button class="category-btn active" data-category="all">Всі питання</button>
+            <button class="category-btn" data-category="orders">Замовлення</button>
+            <button class="category-btn" data-category="shipping">Доставка</button>
+            <button class="category-btn" data-category="payment">Оплата</button>
+            <button class="category-btn" data-category="returns">Повернення</button>
+            <button class="category-btn" data-category="account">Аккаунт</button>
+        </div>
+
+        <!-- FAQ Items -->
+        <div class="faq-container">
+            <div class="faq-item" data-category="orders">
+                <button class="faq-question">
+                    Як оформити замовлення?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Для оформлення замовлення виконайте наступні кроки:</p>
+                    <ul>
+                        <li>Виберіть потрібний товар та додайте його до кошика</li>
+                        <li>Перейдіть до кошика та перевірте вибрані товари</li>
+                        <li>Заповніть контактну інформацію та адресу доставки</li>
+                        <li>Оберіть спосіб оплати та підтвердіть замовлення</li>
+                    </ul>
+                    <p>Після оформлення ви отримаєте підтвердження на електронну пошту з деталями замовлення.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="shipping">
+                <button class="faq-question">
+                    Скільки часу займає доставка?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Терміни доставки залежать від обраного способу та місця призначення:</p>
+                    <ul>
+                        <li><strong>По Києву:</strong> 1-2 робочі дні</li>
+                        <li><strong>По Україні (Нова Пошта):</strong> 2-5 робочих днів</li>
+                        <li><strong>По Україні (Укрпошта):</strong> 3-7 робочих днів</li>
+                        <li><strong>Експрес-доставка:</strong> протягом дня (тільки по Києву)</li>
+                    </ul>
+                    <p>Точний час доставки залежить від наявності товару на складі та завантаженості служби доставки.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="payment">
+                <button class="faq-question">
+                    Які способи оплати ви приймаєте?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Ми приймаємо наступні способи оплати:</p>
+                    <ul>
+                        <li><strong>Онлайн-оплата:</strong> Visa, MasterCard, Privat24</li>
+                        <li><strong>Готівкою:</strong> при отриманні товару</li>
+                        <li><strong>Накладний платіж:</strong> через Нову Пошту</li>
+                        <li><strong>Банківський переказ:</strong> для юридичних осіб</li>
+                    </ul>
+                    <p>Усі онлайн-платежі здійснюються через захищені платіжні системи.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="returns">
+                <button class="faq-question">
+                    Як повернути товар?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Повернення товару можливе протягом <strong>14 днів</strong> з моменту отримання за наступних умов:</p>
+                    <ul>
+                        <li>Товар не використовувався та зберігає товарний вигляд</li>
+                        <li>Збережена оригінальна упаковка</li>
+                        <li>Наявні всі комплектуючі та документи</li>
+                    </ul>
+                    <p>Для оформлення повернення зв'яжіться з нашою службою підтримки або заповніть форму на сайті.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="account">
+                <button class="faq-question">
+                    Як створити особистий кабінет?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Для створення особистого кабінету:</p>
+                    <ul>
+                        <li>Натисніть кнопку "Реєстрація" у верхній частині сайту</li>
+                        <li>Заповніть форму реєстрації (ім'я, email, пароль)</li>
+                        <li>Підтвердіть реєстрацію через посилання в email</li>
+                        <li>Увійдіть до особистого кабінету</li>
+                    </ul>
+                    <p>В особистому кабінеті ви зможете відстежувати замовлення, зберігати адреси доставки та переглядати історію покупок.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="orders">
+                <button class="faq-question">
+                    Чи можна скасувати замовлення?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Скасування замовлення можливе за наступних умов:</p>
+                    <ul>
+                        <li><strong>До відправки:</strong> безкоштовно через особистий кабінет або телефоном</li>
+                        <li><strong>Після відправки:</strong> можна відмовитися при отриманні (оплачується доставка)</li>
+                        <li><strong>Оплачені замовлення:</strong> кошти повертаються протягом 3-5 робочих днів</li>
+                    </ul>
+                    <p>Для скасування зв'яжіться з нами якнайшвидше після оформлення замовлення.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="shipping">
+                <button class="faq-question">
+                    Чи є безкоштовна доставка?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Так, ми надаємо безкоштовну доставку за певних умов:</p>
+                    <ul>
+                        <li><strong>По Києву:</strong> при замовленні від 1000 грн</li>
+                        <li><strong>По Україні:</strong> при замовленні від 1500 грн</li>
+                        <li><strong>Акційні товари:</strong> безкоштовна доставка незалежно від суми</li>
+                    </ul>
+                    <p>Інформація про безкоштовну доставку відображається при оформленні замовлення.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="account">
+                <button class="faq-question">
+                    Забув пароль від особистого кабінету. Що робити?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Для відновлення паролю:</p>
+                    <ul>
+                        <li>Натисніть "Забули пароль?" на сторінці входу</li>
+                        <li>Введіть свою електронну адресу</li>
+                        <li>Перевірте пошту та перейдіть за посиланням</li>
+                        <li>Створіть новий пароль</li>
+                    </ul>
+                    <p>Якщо лист не прийшов, перевірте папку "Спам" або зв'яжіться з підтримкою.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h3>Не знайшли відповідь на своє питання?</h3>
+            <p>Наша команда підтримки готова допомогти вам у будь-який час</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong> support@metaworks.ua
+                </div>
+                <div class="contact-item">
+                    <strong>Телефон:</strong> +380 XX XXX XX XX
+                </div>
+                <div class="contact-item">
+                    <strong>Час роботи:</strong> Пн-Пт: 09:00-18:00
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="logo">МетаВоркс</div>
+        <div class="footer-links">
+            <div class="footer-link">Конфіденційність</div>
+            <div class="footer-link">Контакти</div>
+            <div class="footer-link">Питання та відповіді</div>
+        </div>
+        <div class="copyright">МетаВоркс © 2023</div>
+    </footer>
+
+    <script>
+        // FAQ Toggle Functionality
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const isActive = question.classList.contains('active');
+                
+                // Close all other questions
+                faqQuestions.forEach(q => {
+                    q.classList.remove('active');
+                    q.nextElementSibling.classList.remove('active');
+                });
+                
+                // Toggle current question
+                if (!isActive) {
+                    question.classList.add('active');
+                    answer.classList.add('active');
+                }
+            });
+        });
+
+        // Category Filter Functionality
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                
+                // Filter FAQ items
+                faqItems.forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Search Functionality
+        // Search Functionality
+        const searchBox = document.getElementById('searchBox');
+        
+        searchBox.addEventListener('input', () => {
+            const searchTerm = searchBox.value.toLowerCase();
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Reset category filter when searching
+            if (searchTerm) {
+                categoryBtns.forEach(btn => btn.classList.remove('active'));
+                document.querySelector('[data-category="all"]').classList.add('active');
+            }
+        });
+
+        // Clear search when category is selected
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (searchBox.value) {
+                    searchBox.value = '';
+                }
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add keyboard navigation for FAQ items
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                if (e.target.classList.contains('faq-question')) {
+                    e.preventDefault();
+                    e.target.click();
+                }
+            }
+        });
+
+        // Add aria-expanded attributes for accessibility
+        faqQuestions.forEach(question => {
+            question.setAttribute('aria-expanded', 'false');
+            question.addEventListener('click', () => {
+                const isExpanded = question.classList.contains('active');
+                question.setAttribute('aria-expanded', isExpanded);
+            });
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set focus to search box when page loads
+            searchBox.focus();
+            
+            // Add loading animation completion
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+        });
+    </script>
+</body>
+</html>

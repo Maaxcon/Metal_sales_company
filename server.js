@@ -34,6 +34,15 @@ app.get('/registration', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'registration.html')); // сторінка реєстрації
 });
 
+app.get('/order', (req, res) => {
+  res.sendFile(path.join(__dirname, 'html', 'order.html')); // сторінка реєстрації
+});
+
+app.get('/person', (req, res) => {
+  res.sendFile(path.join(__dirname, 'html', 'person.html')); // сторінка реєстрації
+});
+
+
 app.get('/authorization', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'authorization.html')); // сторінка авторизації
 });

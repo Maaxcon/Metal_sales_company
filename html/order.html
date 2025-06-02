@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформлення замовлення - МетаВоркс</title>
+    <link rel="stylesheet" href="/css/order.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDD31yJxSyUbEayytXdnOyLMuEaMra_wKs",
+        authDomain: "my-metaworks.firebaseapp.com",
+        projectId: "my-metaworks",
+        storageBucket: "my-metaworks.firebasestorage.app",
+        messagingSenderId: "651526242373",
+        appId: "1:651526242373:web:a590989d8ce6db3458e32c"
+    };
+
+    // Ініціалізація Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <a href="home_page.html" style="text-decoration: none; color: inherit;">МетаВоркс</a>
+            </div>
+            
+            <div class="user-section">
+                <!-- Кошик -->
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                
+                <!-- Показується коли користувач не увійшов -->
+                <button class="login-btn" id="loginBtn">Вхід / Реєстрація</button>
+                
+                <!-- Показується коли користувач увійшов -->
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <div class="user-info" id="userInfo">
+                        <span class="user-name" id="userName">Користувач</span>
+                        <div class="user-menu" id="userMenu">
+                            <button class="profile-btn" id="profileBtn">Профіль</button>
+                            <button class="logout-btn" id="logoutBtn">Вийти</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+
+            <div class="page-header">
+                <h1 class="page-title">Оформлення замовлення</h1>
+            </div>
+
+            <div class="checkout-layout">
+                <!-- Основна форма замовлення -->
+                <div class="checkout-form">
+                    <form id="checkoutForm">
+                        <!-- Контактна інформація -->
+                        <div class="form-section">
+                            <h2>Контактна інформація</h2>
+                            <div class="form-group">
+                                <label for="customerName">Прізвище та ім'я *</label>
+                                <input type="text" id="customerName" name="customerName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerPhone">Номер телефону *</label>
+                                <input type="tel" id="customerPhone" name="customerPhone" required placeholder="+380XXXXXXXXX">
+                            </div>
+                            <div class="form-group">
+                                <label for="customerEmail">Email</label>
+                                <input type="email" id="customerEmail" name="customerEmail" placeholder="example@mail.com">
+                            </div>
+                        </div>
+
+                        <!-- Адреса доставки -->
+                        <div class="form-section">
+                            <h2>Адреса доставки</h2>
+                            <div class="form-group">
+                                <label for="deliveryType">Спосіб доставки *</label>
+                                <select id="deliveryType" name="deliveryType" required>
+                                    <option value="">Оберіть спосіб доставки</option>
+                                    <option value="nova-poshta">Нова Пошта</option>
+                                    <option value="ukrposhta">Укрпошта</option>
+                                    <option value="courier">Кур'єрська доставка</option>
+                                    <option value="pickup">Самовивіз</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="city">Місто *</label>
+                                <input type="text" id="city" name="city" required placeholder="Київ">
+                            </div>
+                            
+                            <div id="addressFields">
+                                <div class="form-group" id="warehouseGroup" style="display: none;">
+                                    <label for="warehouse">Відділення</label>
+                                    <input type="text" id="warehouse" name="warehouse" placeholder="№ відділення або адреса">
+                                </div>
+                                
+                                <div class="form-group" id="addressGroup" style="display: none;">
+                                    <label for="address">Адреса *</label>
+                                    <input type="text" id="address" name="address" placeholder="Вул. Назва, буд. 1, кв. 1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Спосіб оплати -->
+                        <div class="form-section">
+                            <h2>Спосіб оплати</h2>
+                            <div class="payment-methods">
+                                <div class="payment-option">
+                                    <input type="radio" id="cashOnDelivery" name="paymentMethod" value="cash" checked>
+                                    <label for="cashOnDelivery">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        Оплата при отриманні (готівка)
+                                    </label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="cardOnDelivery" name="paymentMethod" value="card">
+                                    <label for="cardOnDelivery">
+                                        <i class="fas fa-credit-card"></i>
+                                        Оплата картою при отриманні
+                                    </label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="bankTransfer" name="paymentMethod" value="transfer">
+                                    <label for="bankTransfer">
+                                        <i class="fas fa-university"></i>
+                                        Банківський переказ
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Коментар до замовлення -->
+                        <div class="form-section">
+                            <h2>Коментар до замовлення</h2>
+                            <div class="form-group">
+                                <label for="orderComment">Додаткова інформація</label>
+                                <textarea id="orderComment" name="orderComment" rows="4" placeholder="Додайте коментар до замовлення (не обов'язково)"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Сайдбар з замовленням -->
+                <div class="order-summary">
+                    <div class="summary-card">
+                        <h3>Ваше замовлення</h3>
+                        
+                        <div class="order-items" id="orderItems">
+                            <!-- Товари будуть додані через JavaScript -->
+                        </div>
+                        
+                        <div class="order-totals">
+                            <div class="total-row">
+                                <span>Підсумок:</span>
+                                <span id="orderSubtotal">₴0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Доставка:</span>
+                                <span id="deliveryCost">₴200.00</span>
+                            </div>
+                            <div class="total-row total-final">
+                                <span>Загалом:</span>
+                                <span id="orderTotal">₴200.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="checkout-actions">
+                            <button type="button" class="back-to-cart-btn" id="backToCartBtn">
+                                <i class="fas fa-arrow-left"></i>
+                                Повернутися до кошика
+                            </button>
+                            <button type="submit" form="checkoutForm" class="place-order-btn" id="placeOrderBtn">
+                                <i class="fas fa-check"></i>
+                                Підтвердити замовлення
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Оформлення замовлення...</p>
+        </div>
+    </div>
+
+    <!-- Success modal -->
+    <div class="success-overlay" id="successOverlay" style="display: none;">
+        <div class="success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Замовлення успішно оформлено!</h2>
+            <p>Номер вашого замовлення: <strong id="orderNumber">#12345</strong></p>
+            <p>Ми зв'яжемося з вами найближчим часом для підтвердження деталей.</p>
+            <div class="success-actions">
+                <button class="continue-shopping-btn" id="continueShoppingFromSuccess">
+                    Продовжити покупки
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-info-circle"></i>
+        <span id="toastMessage">Повідомлення</span>
+    </div>
+    <script src="/script/auth.js"></script>
+    <script src="/script/order.js"></script>
+</body>
+</html>

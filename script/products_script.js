@@ -683,6 +683,9 @@ function proceedToCheckout() {
     // Тут можна додати логіку переходу на сторінку оформлення замовлення
     showToast('Переходимо до оформлення замовлення...', 'info');
     // window.location.href = '/checkout.html';
+    setTimeout(() => {
+        window.location.href = '/order.html';
+    }, 500);
 }
 
 // Вихід з акаунта

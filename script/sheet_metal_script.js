@@ -661,6 +661,9 @@ function proceedToCheckout() {
     // Тут можна додати логіку переходу на сторінку оформлення замовлення
     showToast('Переходимо до оформлення замовлення...', 'info');
     // window.location.href = '/checkout.html';
+    setTimeout(() => {
+        window.location.href = '/order.html';
+    }, 500);
 }
 
 // Вихід з акаунта
@@ -1218,6 +1221,7 @@ function clearFilters() {
 // Додайте цей код в ваш файл products_script.js
 
 // Функція пошуку товарів
+// Функція пошуку листів
 function searchProducts(query) {
     const normalizedQuery = query.toLowerCase().trim();
     
@@ -1227,12 +1231,32 @@ function searchProducts(query) {
         return;
     }
     
-    // Фільтрація товарів за назвою, описом або характеристиками
+    // Фільтрація листів за назвою, описом або характеристиками
     const filteredProducts = allProducts.filter(product => {
         return product.name.toLowerCase().includes(normalizedQuery) ||
                (product.description && product.description.toLowerCase().includes(normalizedQuery)) ||
-               product.diameter.toString().includes(normalizedQuery) ||
-               product.class.toLowerCase().includes(normalizedQuery);
+               // Пошук за типом листа
+               (product.type && product.type.toLowerCase().includes(normalizedQuery)) ||
+               // Пошук за товщиною
+               product.thickness.toString().includes(normalizedQuery) ||
+               // Пошук за шириною
+               product.width.toString().includes(normalizedQuery) ||
+               // Пошук за довжиною
+               product.length.toString().includes(normalizedQuery) ||
+               // Пошук за маркою сталі
+               (product.steelGrade && product.steelGrade.toLowerCase().includes(normalizedQuery)) ||
+               // Пошук за класом
+               (product.class && product.class.toLowerCase().includes(normalizedQuery)) ||
+               // Пошук за номером профілю
+               (product.profile && product.profile.toLowerCase().includes(normalizedQuery)) ||
+               // Пошук за розмірами (формат "товщина x ширина x довжина")
+               `${product.thickness}x${product.width}x${product.length}`.includes(normalizedQuery) ||
+               // Пошук за розмірами з пробілами
+               `${product.thickness} x ${product.width} x ${product.length}`.includes(normalizedQuery) ||
+               // Пошук за окремими розмірами з "мм"
+               `${product.thickness}мм`.includes(normalizedQuery) ||
+               `${product.width}мм`.includes(normalizedQuery) ||
+               `${product.length}мм`.includes(normalizedQuery);
     });
     
     displayProducts(filteredProducts);
@@ -1254,11 +1278,11 @@ document.getElementById('searchInput').addEventListener('keypress', function(e) 
     }
 });
 
-// Додатково: пошук в реальному часі (необов'язково)
+// Пошук в реальному часі з оптимізацією
 document.getElementById('searchInput').addEventListener('input', function() {
     const query = this.value;
     
-    // Додати невелику затримку для оптимізації
+    // Додати затримку для оптимізації
     clearTimeout(this.searchTimeout);
     this.searchTimeout = setTimeout(() => {
         searchProducts(query);
@@ -1269,12 +1293,41 @@ document.getElementById('searchInput').addEventListener('input', function() {
 function updateResultsCount(count) {
     const resultsCount = document.getElementById('resultsCount');
     if (count === 0) {
-        resultsCount.textContent = 'Товари не знайдені';
+        resultsCount.textContent = 'Листи не знайдені';
     } else if (count === 1) {
-        resultsCount.textContent = 'Знайдено 1 товар';
+        resultsCount.textContent = 'Знайдено 1 лист';
     } else if (count < 5) {
-        resultsCount.textContent = `Знайдено ${count} товари`;
+        resultsCount.textContent = `Знайдено ${count} листи`;
     } else {
-        resultsCount.textContent = `Знайдено ${count} товарів`;
+        resultsCount.textContent = `Знайдено ${count} листів`;
     }
+}
+
+// Додаткова функція для пошуку за розмірами
+function searchByDimensions(thickness, width, length) {
+    const filteredProducts = allProducts.filter(product => {
+        let match = true;
+        
+        if (thickness && thickness !== '') {
+            match = match && product.thickness.toString() === thickness.toString();
+        }
+        if (width && width !== '') {
+            match = match && product.width.toString() === width.toString();
+        }
+        if (length && length !== '') {
+            match = match && product.length.toString() === length.toString();
+        }
+        
+        return match;
+    });
+    
+    displayProducts(filteredProducts);
+    updateResultsCount(filteredProducts.length);
+}
+
+// Функція для швидкого пошуку популярних розмірів
+function quickSearch(searchTerm) {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.value = searchTerm;
+    searchProducts(searchTerm);
 }

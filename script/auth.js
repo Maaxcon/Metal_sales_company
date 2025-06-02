@@ -59,11 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Обробник кнопки профілю
-    document.getElementById('profileBtn').addEventListener('click', () => {
-        // Тут можна додати перехід на сторінку профілю
-        alert('Функція профілю буде додана пізніше');
-    });
+
 });
 
 // Функція для отримання поточного користувача

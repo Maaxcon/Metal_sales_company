@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакти - МетаВоркс</title>
+    <style>
+        /* Стилі для сторінки контактів - MetaWorks */
+
+        /* Використовуємо змінні з основного файлу стилів */
+        :root {
+            /* Color Palette - More industrial feel inspired by metinvest-smc.com */
+            --primary: #004687;
+            --primary-light: #0062b4;
+            --primary-dark: #00305e;
+            --accent: #ff7a00;
+            --text-dark: #1a202c;
+            --text-medium: #4a5568;
+            --text-light: #718096;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --border-light: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05);
+            
+            /* Typography */
+            --font-primary: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            --font-heading: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            
+            /* Spacing and Layout */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --spacing-3xl: 64px;
+            
+            /* Animation */
+            --transition-fast: 150ms ease;
+            --transition-normal: 250ms ease;
+            --transition-slow: 350ms ease;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--bg-white);
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo:after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 40%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-xl);
+        }
+
+        .nav-link {
+            color: var(--text-medium);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-normal);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width var(--transition-normal);
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active:after {
+            width: 100%;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-3xl) var(--spacing-lg);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+        }
+
+        .page-description {
+            color: var(--text-medium);
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-2xl);
+            line-height: 1.7;
+            max-width: 800px;
+        }
+
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        /* Contact Cards */
+        .contact-card {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .contact-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .contact-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+        }
+
+        .contact-card h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .contact-info-item {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-md);
+            border-left: 3px solid var(--accent);
+            background: rgba(0, 70, 135, 0.02);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+
+        .contact-info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-info-item strong {
+            color: var(--primary);
+            font-weight: 600;
+            display: block;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .contact-info-item span {
+            color: var(--text-medium);
+            font-size: 1rem;
+        }
+
+        .contact-info-item a {
+            color: var(--text-medium);
+            text-decoration: none;
+            transition: color var(--transition-normal);
+        }
+
+        .contact-info-item a:hover {
+            color: var(--primary);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: linear-gradient(135deg, rgba(0, 70, 135, 0.03), rgba(0, 70, 135, 0.05));
+            border: 1px solid rgba(0, 70, 135, 0.1);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        .contact-form:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+        }
+
+        .contact-form h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            color: var(--text-dark);
+            font-weight: 500;
+            margin-bottom: var(--spacing-sm);
+            font-size: 0.95rem;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            padding: var(--spacing-md);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: all var(--transition-normal);
+            background-color: var(--bg-white);
+            font-family: var(--font-primary);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 70, 135, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-2xl);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            margin: var(--spacing-lg) auto 0;
+            display: block;
+            min-width: 200px;
+        }
+
+        .form-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-button:active {
+            transform: translateY(0);
+        }
+
+        /* Working Hours Section */
+        .working-hours {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            margin-top: var(--spacing-2xl);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: 0.4s;
+        }
+
+        .working-hours:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+        }
+
+        .working-hours h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            background: rgba(0, 70, 135, 0.02);
+            border-left: 3px solid var(--accent);
+        }
+
+        .hours-day {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .hours-time {
+            color: var(--text-medium);
+        }
+
+        .hours-item.today {
+            background: rgba(255, 122, 0, 0.1);
+            border-left-color: var(--accent);
+        }
+
+        .hours-item.today .hours-time {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Social Links */
+        .social-section {
+            text-align: center;
+            margin-top: var(--spacing-3xl);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .social-section h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-white);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: var(--text-medium);
+            font-weight: 500;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .social-link:hover {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            padding: var(--spacing-xl) 0;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            margin-top: var(--spacing-3xl);
+        }
+          
+        footer .logo {
+            font-size: 1.25rem;
+        }
+          
+        .footer-links {
+            display: flex;
+        }
+          
+        .footer-link {
+            margin-right: var(--spacing-xl);
+            transition: color var(--transition-normal);
+            position: relative;
+            cursor: pointer;
+        }
+          
+        .footer-link:hover {
+            color: var(--primary);
+        }
+          
+        .footer-link:after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width var(--transition-normal);
+        }
+          
+        .footer-link:hover:after {
+            width: 100%;
+        }
+          
+        .copyright {
+            font-size: 0.85rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .contact-card:nth-child(1) { animation-delay: 0.1s; }
+        .contact-card:nth-child(2) { animation-delay: 0.2s; }
+
+        /* Media Queries */
+        @media (max-width: 991px) {
+            .header-content {
+                flex-direction: column;
+                height: auto;
+                padding: var(--spacing-lg);
+                gap: var(--spacing-lg);
+            }
+            
+            .nav-links {
+                gap: var(--spacing-lg);
+            }
+            
+            .main-content {
+                padding: var(--spacing-2xl) var(--spacing-lg);
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-xl);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .header-content {
+                text-align: center;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .main-content {
+                padding: var(--spacing-xl) var(--spacing-md);
+            }
+            
+            .page-title {
+                font-size: 1.75rem;
+            }
+            
+            .contact-card,
+            .contact-form,
+            .working-hours {
+                padding: var(--spacing-xl);
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            footer {
+                flex-direction: column;
+                gap: var(--spacing-lg);
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: var(--spacing-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: var(--spacing-lg) var(--spacing-sm);
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .contact-card,
+            .contact-form,
+            .working-hours {
+                padding: var(--spacing-lg);
+            }
+
+            .hours-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <a href="home_page.html" style="text-decoration: none; color: inherit;">МетаВоркс</a>
+            </div>
+            <nav class="nav-links">
+                <a href="#" class="nav-link">Питання та відповіді</a>
+                <a href="#" class="nav-link active">Контакти</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h1 class="page-title">Контакти</h1>
+        <p class="page-description">
+            Ми завжди готові допомогти вам з будь-якими питаннями. Зв'яжіться з нами зручним для вас способом або заповніть форму зворотного зв'язку, і ми обов'язково відповімо якнайшвидше.
+        </p>
+
+        <!-- Contact Grid -->
+        <div class="contact-grid">
+            <!-- General Contact Info -->
+            <div class="contact-card">
+                <h3>
+                    <div class="contact-icon">📞</div>
+                    Загальна інформація
+                </h3>
+                <div class="contact-info-item">
+                    <strong>Телефон:</strong>
+                    <a href="tel:+380671234567">+380 67 123 45 67</a>
+                </div>
+                <div class="contact-info-item">
+                    <strong>Email:</strong>
+                    <a href="mailto:info@metaworks.ua">info@metaworks.ua</a>
+                </div>
+                <div class="contact-info-item">
+                    <strong>Адреса:</strong>
+                    <span> Київ</span>
+                </div>
+                <div class="contact-info-item">
+                    <strong>Режим роботи:</strong>
+                    <span>Пн-Пт: 09:00-18:00<br>Сб: 10:00-15:00</span>
+                </div>
+            </div>
+
+            <!-- Support Contact Info -->
+            <div class="contact-card">
+                <h3>
+                    <div class="contact-icon">🛠</div>
+                    Служба підтримки
+                </h3>
+                <div class="contact-info-item">
+                    <strong>Гаряча лінія:</strong>
+                    <a href="tel:+380501234567">+380 50 123 45 67</a>
+                </div>
+                <div class="contact-info-item">
+                    <strong>Email підтримки:</strong>
+                    <a href="mailto:support@metaworks.ua">support@metaworks.ua</a>
+                </div>
+                <div class="contact-info-item">
+                    <strong>Онлайн-чат:</strong>
+                    <span>Доступний на сайті 24/7</span>
+                </div>
+                <div class="contact-info-item">
+                    <strong>Час відповіді:</strong>
+                    <span>До 2 годин у робочий час</span>
+                </div>
+            </div>
+        </div>
+
+    
+
+        <!-- Working Hours -->
+        <div class="working-hours">
+            <h3>Графік роботи</h3>
+            <div class="hours-grid">
+                <div class="hours-item">
+                    <span class="hours-day">Понеділок</span>
+                    <span class="hours-time">09:00 - 18:00</span>
+                </div>
+                <div class="hours-item">
+                    <span class="hours-day">Вівторок</span>
+                    <span class="hours-time">09:00 - 18:00</span>
+                </div>
+                <div class="hours-item today">
+                    <span class="hours-day">Середа</span>
+                    <span class="hours-time">09:00 - 18:00</span>
+                </div>
+                <div class="hours-item">
+                    <span class="hours-day">Четвер</span>
+                    <span class="hours-time">09:00 - 18:00</span>
+                </div>
+                <div class="hours-item">
+                    <span class="hours-day">П'ятниця</span>
+                    <span class="hours-time">09:00 - 18:00</span>
+                </div>
+                <div class="hours-item">
+                    <span class="hours-day">Субота</span>
+                    <span class="hours-time">10:00 - 15:00</span>
+                </div>
+                <div class="hours-item">
+                    <span class="hours-day">Неділя</span>
+                    <span class="hours-time">Вихідний</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="social-section">
+            <h3>Слідкуйте за нами</h3>
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <div class="social-icon">F</div>
+                    Facebook
+                </a>
+                <a href="#" class="social-link">
+                    <div class="social-icon">T</div>
+                    Telegram
+                </a>
+                <a href="#" class="social-link">
+                    <div class="social-icon">I</div>
+                    Instagram
+                </a>
+                <a href="#" class="social-link">
+                    <div class="social-icon">V</div>
+                    Viber
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="logo">МетаВоркс</div>
+        <div class="footer-links">
+            <div class="footer-link">Конфіденційність</div>
+            <div class="footer-link">Контакти</div>
+            <div class="footer-link">Питання та відповіді</div>
+        </div>
+        <div class="copyright">МетаВоркс © 2023</div>
+    </footer>
+
+    <script>
+        // Form submission handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Basic validation
+            if (!name || !email || !message) {
+                alert('Будь ласка, заповніть всі обов\'язкові поля');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Будь ласка, введіть коректну email адресу');
+                return;
+            }
+            
+            // Simulate form submission
+            const button = document.querySelector('.form-button');
+            const originalText = button.textContent;
+            button.textContent = 'Відправляємо...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                alert('Дякуємо за ваше повідомлення! Ми зв\'яжемося з вами найближчим часом.');
+                this.reset();
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 2000);
+        });
+
+        // Highlight current day in working hours
+        function highlightCurrentDay() {
+            const days = ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'П\'ятниця', 'Субота'];
+            const today = new Date().getDay();
+            const todayName = days[today];
+            
+            // Remove existing today class
+            document.querySelectorAll('.hours-item').forEach(item => {
+                item.classList.remove('today');
+            });
+            
+            // Add today class to current day
+            document.querySelectorAll('.hours-item').forEach(item => {
+                const dayName = item.querySelector('.hours-day').textContent;
+                if (dayName === todayName) {
+                    item.classList.add('today');
+                }
+            });
+        }
+
+        // Phone number formatting
+        // Phone number formatting
+        function formatPhoneNumber(input) {
+            // Remove all non-digits
+            let value = input.value.replace(/\D/g, '');
+            
+            // Format Ukrainian phone number
+            if (value.startsWith('380')) {
+                value = value.substring(3);
+            }
+            
+            if (value.length > 0) {
+                if (value.length <= 2) {
+                    value = `+380 ${value}`;
+                } else if (value.length <= 5) {
+                    value = `+380 ${value.substring(0, 2)} ${value.substring(2)}`;
+                } else if (value.length <= 8) {
+                    value = `+380 ${value.substring(0, 2)} ${value.substring(2, 5)} ${value.substring(5)}`;
+                } else {
+                    value = `+380 ${value.substring(0, 2)} ${value.substring(2, 5)} ${value.substring(5, 7)} ${value.substring(7, 9)}`;
+                }
+            }
+            
+            input.value = value;
+        }
+
+        // Add phone formatting to phone input
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function() {
+            formatPhoneNumber(this);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Social media link interactions
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const platform = this.textContent.trim();
+                
+                // In a real application, these would be actual social media URLs
+                const socialUrls = {
+                    'Facebook': 'https://facebook.com/metaworks',
+                    'Telegram': 'https://t.me/metaworks',
+                    'Instagram': 'https://instagram.com/metaworks',
+                    'Viber': 'viber://chat?number=+380671234567'
+                };
+                
+                if (socialUrls[platform]) {
+                    // Simulate opening social media (in real app would open actual links)
+                    alert(`Перехід до ${platform}: ${socialUrls[platform]}`);
+                }
+            });
+        });
+
+        // Contact info click handlers
+        document.querySelectorAll('.contact-info-item a[href^="tel:"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // For desktop users, show copy option
+                if (!('ontouchstart' in window)) {
+                    e.preventDefault();
+                    const phoneNumber = this.textContent;
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(phoneNumber).then(() => {
+                            showNotification(`Номер ${phoneNumber} скопійовано в буфер обміну`);
+                        });
+                    } else {
+                        // Fallback for older browsers
+                        const textArea = document.createElement('textarea');
+                        textArea.value = phoneNumber;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        showNotification(`Номер ${phoneNumber} скопійовано в буфер обміну`);
+                    }
+                }
+            });
+        });
+
+        // Email click handlers
+        document.querySelectorAll('.contact-info-item a[href^="mailto:"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // For desktop users, show copy option
+                if (!('ontouchstart' in window)) {
+                    e.preventDefault();
+                    const email = this.textContent;
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(email).then(() => {
+                            showNotification(`Email ${email} скопійовано в буфер обміну`);
+                        });
+                    } else {
+                        // Fallback for older browsers
+                        const textArea = document.createElement('textarea');
+                        textArea.value = email;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        showNotification(`Email ${email} скопійовано в буфер обміну`);
+                    }
+                }
+            });
+        });
+
+        // Notification system
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--primary);
+                color: white;
+                padding: 16px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 1000;
+                font-family: var(--font-primary);
+                font-size: 14px;
+                max-width: 300px;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: all 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Footer link interactions
+        document.querySelectorAll('.footer-link').forEach(link => {
+            link.addEventListener('click', function() {
+                const linkText = this.textContent.trim();
+                
+                switch(linkText) {
+                    case 'Конфіденційність':
+                        alert('Перехід до сторінки політики конфіденційності');
+                        break;
+                    case 'Контакти':
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        break;
+                    case 'Питання та відповіді':
+                        alert('Перехід до сторінки питань та відповідей');
+                        break;
+                }
+            });
+        });
+
+        // Form field validation feedback
+        const formInputs = document.querySelectorAll('.form-input, .form-textarea, .form-select');
+        
+        formInputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.classList.contains('error')) {
+                    validateField(this);
+                }
+            });
+        });
+
+        function validateField(field) {
+            const value = field.value.trim();
+            const isRequired = field.hasAttribute('required');
+            
+            // Remove existing error state
+            field.classList.remove('error', 'success');
+            
+            if (isRequired && !value) {
+                showFieldError(field, 'Це поле є обов\'язковим');
+                return false;
+            }
+            
+            // Email validation
+            if (field.type === 'email' && value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    showFieldError(field, 'Введіть коректну email адресу');
+                    return false;
+                }
+            }
+            
+            // Phone validation
+            if (field.type === 'tel' && value) {
+                const phoneRegex = /^\+380\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
+                if (!phoneRegex.test(value)) {
+                    showFieldError(field, 'Введіть коректний номер телефону');
+                    return false;
+                }
+            }
+            
+            // Show success state
+            if (value) {
+                field.classList.add('success');
+                hideFieldError(field);
+            }
+            
+            return true;
+        }
+
+        function showFieldError(field, message) {
+            field.classList.add('error');
+            
+            // Remove existing error message
+            const existingError = field.parentNode.querySelector('.field-error');
+            if (existingError) {
+                existingError.remove();
+            }
+            
+            // Create error message
+            const errorElement = document.createElement('div');
+            errorElement.className = 'field-error';
+            errorElement.textContent = message;
+            errorElement.style.cssText = `
+                color: #e53e3e;
+                font-size: 0.875rem;
+                margin-top: 4px;
+                font-weight: 500;
+            `;
+            
+            field.parentNode.appendChild(errorElement);
+            
+            // Add error styles to field
+            field.style.borderColor = '#e53e3e';
+            field.style.boxShadow = '0 0 0 3px rgba(229, 62, 62, 0.1)';
+        }
+
+        function hideFieldError(field) {
+            const errorElement = field.parentNode.querySelector('.field-error');
+            if (errorElement) {
+                errorElement.remove();
+            }
+            
+            // Reset field styles
+            field.style.borderColor = '';
+            field.style.boxShadow = '';
+        }
+
+        // Add success styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .form-input.success,
+            .form-textarea.success,
+            .form-select.success {
+                border-color: #38a169 !important;
+                box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.1) !important;
+            }
+            
+            .form-input.error,
+            .form-textarea.error,
+            .form-select.error {
+                border-color: #e53e3e !important;
+                box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1) !important;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize functions when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            highlightCurrentDay();
+        });
+
+        // Update current day highlighting every hour
+        setInterval(highlightCurrentDay, 3600000); // 1 hour in milliseconds
+        </script>
+</body>
+</html>

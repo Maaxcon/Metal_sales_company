@@ -678,6 +678,10 @@ function proceedToCheckout() {
     // Тут можна додати логіку переходу на сторінку оформлення замовлення
     showToast('Переходимо до оформлення замовлення...', 'info');
     // window.location.href = '/checkout.html';
+
+    setTimeout(() => {
+        window.location.href = '/order.html';
+    }, 500);
 }
 
 // Вихід з акаунта
@@ -1185,3 +1189,140 @@ function clearFilters() {
     showToast('Фільтри очищено', 'info');
 }
 
+// Функція пошуку квадратних труб
+function searchProducts(query) {
+    const normalizedQuery = query.toLowerCase().trim();
+    
+    if (normalizedQuery === '') {
+        // Якщо пошуковий запит порожній, показати всі товари
+        loadProducts();
+        return;
+    }
+    
+    // Фільтрація квадратних труб за назвою, описом або характеристиками
+    const filteredProducts = allProducts.filter(product => {
+        return product.name.toLowerCase().includes(normalizedQuery) ||
+               (product.description && product.description.toLowerCase().includes(normalizedQuery)) ||
+               // Пошук за номером профілю (розмір квадрата)
+               (product.profileNumber && product.profileNumber.toLowerCase().includes(normalizedQuery)) ||
+               // Пошук за товщиною стінки
+               product.thickness.toString().includes(normalizedQuery) ||
+               // Пошук за шириною/висотою квадрата
+               product.width.toString().includes(normalizedQuery) ||
+               // Пошук за довжиною
+               product.length.toString().includes(normalizedQuery) ||
+               // Пошук за маркою сталі
+               (product.steelGrade && product.steelGrade.toLowerCase().includes(normalizedQuery)) ||
+               // Пошук за розміром профілю (наприклад "20x20", "40x40")
+               `${product.width}x${product.width}`.includes(normalizedQuery) ||
+               // Пошук за розміром з товщиною (наприклад "20x20x2")
+               `${product.width}x${product.width}x${product.thickness}`.includes(normalizedQuery) ||
+               // Пошук за розмірами з пробілами
+               `${product.width} x ${product.width}`.includes(normalizedQuery) ||
+               `${product.width} x ${product.width} x ${product.thickness}`.includes(normalizedQuery) ||
+               // Пошук за окремими розмірами з "мм"
+               `${product.width}мм`.includes(normalizedQuery) ||
+               `${product.thickness}мм`.includes(normalizedQuery) ||
+               `${product.length}мм`.includes(normalizedQuery) ||
+               // Пошук за терміном "квадрат"
+               normalizedQuery.includes('квадрат') ||
+               normalizedQuery.includes('труба квадратна') ||
+               // Пошук за загальними термінами
+               normalizedQuery.includes('профіль') ||
+               normalizedQuery.includes('труба');
+    });
+    
+    displayProducts(filteredProducts);
+    updateResultsCount(filteredProducts.length);
+}
+
+// Обробник для кнопки пошуку
+document.getElementById('searchBtn').addEventListener('click', function() {
+    const searchInput = document.getElementById('searchInput');
+    const query = searchInput.value;
+    searchProducts(query);
+});
+
+// Обробник для натискання Enter в пошуковому полі
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        const query = this.value;
+        searchProducts(query);
+    }
+});
+
+// Пошук в реальному часі з оптимізацією
+document.getElementById('searchInput').addEventListener('input', function() {
+    const query = this.value;
+    
+    // Додати затримку для оптимізації
+    clearTimeout(this.searchTimeout);
+    this.searchTimeout = setTimeout(() => {
+        searchProducts(query);
+    }, 300);
+});
+
+// Функція для оновлення кількості результатів
+function updateResultsCount(count) {
+    const resultsCount = document.getElementById('resultsCount');
+    if (count === 0) {
+        resultsCount.textContent = 'Квадратні труби не знайдені';
+    } else if (count === 1) {
+        resultsCount.textContent = 'Знайдено 1 квадратну трубу';
+    } else if (count < 5) {
+        resultsCount.textContent = `Знайдено ${count} квадратні труби`;
+    } else {
+        resultsCount.textContent = `Знайдено ${count} квадратних труб`;
+    }
+}
+
+// Додаткова функція для пошуку за розмірами квадратних труб
+function searchBySquareDimensions(width, thickness, length) {
+    const filteredProducts = allProducts.filter(product => {
+        let match = true;
+        
+        if (width && width !== '') {
+            match = match && product.width.toString() === width.toString();
+        }
+        if (thickness && thickness !== '') {
+            match = match && product.thickness.toString() === thickness.toString();
+        }
+        if (length && length !== '') {
+            match = match && product.length.toString() === length.toString();
+        }
+        
+        return match;
+    });
+    
+    displayProducts(filteredProducts);
+    updateResultsCount(filteredProducts.length);
+}
+
+// Функція для швидкого пошуку популярних розмірів квадратних труб
+function quickSearch(searchTerm) {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.value = searchTerm;
+    searchProducts(searchTerm);
+}
+
+// Функція для пошуку за стандартними розмірами
+function searchStandardSizes() {
+    const standardSizes = ['15x15', '20x20', '25x25', '30x30', '40x40', '50x50', '60x60', '80x80', '100x100', '120x120'];
+    return standardSizes;
+}
+
+// Допоміжна функція для парсингу розмірів з пошукового запиту
+function parseSquareDimensions(query) {
+    const sizePattern = /(\d+)x(\d+)(?:x(\d+(?:\.\d+)?))?/;
+    const match = query.match(sizePattern);
+    
+    if (match) {
+        return {
+            width: match[1],
+            height: match[2], // для квадратних труб width = height
+            thickness: match[3] || null
+        };
+    }
+    
+    return null;
+}
